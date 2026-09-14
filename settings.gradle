@@ -2,4 +2,5 @@ rootProject.name = 'content_web'
 
 // Apps modules
 include 'core-api'
+include 'core-domain'
 
