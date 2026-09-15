@@ -48,6 +48,22 @@ public class UserEntity extends BaseEntity {
         this.status = status;
     }
 
+    public static UserEntity createUser(
+            String name,
+            String email,
+            String password,
+            UserRole role,
+            UserStatus status
+    ) {
+        return UserEntity.builder()
+                .name(name)
+                .email(email)
+                .password(password)
+                .role(role)
+                .status(status)
+                .build();
+    }
+
     public static User toDomain(UserEntity entity) {
         return new User(
                 entity.getId(),

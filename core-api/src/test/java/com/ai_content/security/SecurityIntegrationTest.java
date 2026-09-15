@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.ai_content.common.error.ErrorCode;
 import com.ai_content.config.jwt.JwtTokenProvider;
+import com.ai_content.user.UserEntity;
+import com.ai_content.user.UserJpaRepository;
 import com.ai_content.user.domain.User;
 import com.ai_content.user.domain.UserRole;
 import com.ai_content.user.domain.UserStatus;
@@ -27,6 +29,9 @@ public class SecurityIntegrationTest {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private UserJpaRepository userJpaRepository;
+
     private final User user = User.of(
             1L,
             "testuser",
@@ -45,6 +50,8 @@ public class SecurityIntegrationTest {
             UserStatus.ACTIVE
     );
 
+    UserEntity userEntity = UserEntity.createUser("","","", UserRole.USER,UserStatus.ACTIVE);
+
 
     @Test
     void accessWithoutTokenShouldReturn401() throws Exception {
@@ -55,8 +62,9 @@ public class SecurityIntegrationTest {
 
     @Test
     void accessWithAdminTokenShouldReturn200() throws Exception {
-        String accessToken = jwtTokenProvider.createAccessToken(user);
+        userJpaRepository.save(userEntity);
 
+        String accessToken = jwtTokenProvider.createAccessToken(user);
         mockMvc.perform(
                         get("/api/v1/users/test")
                                 .header("Authorization", "Bearer " + accessToken)
