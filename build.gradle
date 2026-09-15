@@ -10,7 +10,13 @@ version = '1.0-SNAPSHOT'
 
 // Common configuration for all subprojects
 subprojects {
-    apply plugin: 'java'
+    // Apply java-library plugin for library modules, java plugin for application modules
+    if (project.path.startsWith(':core-api')) {
+        apply plugin: 'java'
+    } else {
+        apply plugin: 'java-library'
+    }
+
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 
@@ -30,6 +36,16 @@ subprojects {
         // Testing
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    // disable bootJar (enabled only in application modules)
+    tasks.named('bootJar') {
+        enabled = false
+    }
+
+    // Enable plain jar for libraries
+    tasks.named('jar') {
+        enabled = true
     }
 
     tasks.named('test') {
