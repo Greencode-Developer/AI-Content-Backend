@@ -1,11 +1,11 @@
-package com.web_spring;
+package com.ai_content;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Main {
+public class AIContentApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
+        SpringApplication.run(AIContentApplication.class, args);
     }
 }
