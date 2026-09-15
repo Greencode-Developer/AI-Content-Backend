@@ -1,0 +1,25 @@
+package com.ai_content.config.jwt;
+
+import com.ai_content.common.error.CustomException;
+import com.ai_content.common.error.ErrorCode;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties(prefix = "jwt")
+public record JwtProperties(
+        String secret,
+        long accessTokenValidity,
+        long refreshTokenValidity
+) {
+    public static JwtProperties of(String secret, long accessTokenValidity, long refreshTokenValidity) {
+        return new JwtProperties(secret, accessTokenValidity, refreshTokenValidity);
+    }
+
+    public JwtProperties {
+        if (secret == null || secret.length() < 32) {
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
+        if (accessTokenValidity <= 0 || refreshTokenValidity <= 0) {
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
+    }
+}
