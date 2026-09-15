@@ -12,6 +12,8 @@ public class ErrorHttpStatusMapper {
             case SAMPLE_ERROR,
                     METHOD_ARGUMENT_TYPE_MISMATCH -> HttpStatus.BAD_REQUEST ;
             case METHOD_NOT_ALLOWED -> HttpStatus.METHOD_NOT_ALLOWED;
+            case USER_FORBIDDEN -> HttpStatus.FORBIDDEN;
+            case USER_NOTFOUND, USER_UNAUTHORIZED -> HttpStatus.UNAUTHORIZED;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
     }

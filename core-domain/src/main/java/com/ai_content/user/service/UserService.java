@@ -1,10 +1,22 @@
 package com.ai_content.user.service;
 
+import com.ai_content.common.error.CustomException;
+import com.ai_content.common.error.ErrorCode;
+import com.ai_content.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
+
+    public User getById(Long id) {
+        return userRepository
+                .findById(id)
+                .filter(User::isActive)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOTFOUND));
+    }
 }

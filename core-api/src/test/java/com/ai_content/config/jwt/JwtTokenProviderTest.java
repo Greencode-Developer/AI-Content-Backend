@@ -1,11 +1,11 @@
-package config.jwt;
+package com.ai_content.config.jwt;
 
 import com.ai_content.common.error.CustomException;
 import com.ai_content.common.error.ErrorCode;
 import com.ai_content.config.jwt.JwtProperties;
 import com.ai_content.config.jwt.JwtTokenProvider;
 import com.ai_content.config.jwt.TokenPayload;
-import com.ai_content.user.domain.Role;
+import com.ai_content.user.domain.UserRole;
 import com.ai_content.user.domain.User;
 import com.ai_content.user.domain.UserStatus;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ public class JwtTokenProviderTest {
             "testuser",
             "test@gmail.com",
             "password",
-            Role.USER,
+            UserRole.USER,
             UserStatus.ACTIVE
     );
     @Test

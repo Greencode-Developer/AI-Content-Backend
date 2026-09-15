@@ -2,7 +2,7 @@ package com.ai_content.config.jwt;
 
 import com.ai_content.common.error.CustomException;
 import com.ai_content.common.error.ErrorCode;
-import com.ai_content.user.domain.Role;
+import com.ai_content.user.domain.UserRole;
 import com.ai_content.user.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -73,7 +73,7 @@ public class JwtTokenProvider {
                 throw new CustomException(ErrorCode.USER_TOKEN_INVALID);
             }
 
-            Role userRole = Role.valueOf(role);
+            UserRole userRole = UserRole.valueOf(role);
             return new TokenPayload(userId, userRole, tokenType);
         } catch (IllegalArgumentException e) {
             throw new CustomException(ErrorCode.USER_TOKEN_INVALID);

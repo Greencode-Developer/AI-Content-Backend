@@ -1,4 +1,4 @@
-package controller.advice;
+package com.ai_content.controller.advice;
 
 import com.ai_content.common.error.ErrorCode;
 import com.ai_content.controller.advice.ErrorHttpStatusMapper;
