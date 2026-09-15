@@ -1,7 +1,6 @@
 package com.ai_content.config.jwt;
 
-import com.ai_content.user.domain.Role;
-import com.ai_content.user.domain.User;
+import com.ai_content.user.domain.UserRole;
 
-public record TokenPayload(Long userId, Role roleUser, String tokenType) {
+public record TokenPayload(Long userId, UserRole roleUser, String tokenType) {
 }

@@ -1,7 +1,7 @@
 package com.ai_content.user;
 
 import com.ai_content.BaseEntity;
-import com.ai_content.user.domain.Role;
+import com.ai_content.user.domain.UserRole;
 import com.ai_content.user.domain.User;
 import com.ai_content.user.domain.UserStatus;
 import jakarta.persistence.*;
@@ -28,7 +28,7 @@ public class UserEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    private UserRole role;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -39,7 +39,7 @@ public class UserEntity extends BaseEntity {
             String name,
             String email,
             String password,
-            Role role,
+            UserRole role,
             UserStatus status) {
         this.name = name;
         this.email = email;
