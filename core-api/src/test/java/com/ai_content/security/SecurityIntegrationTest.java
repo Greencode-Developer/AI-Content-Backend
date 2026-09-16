@@ -50,7 +50,7 @@ public class SecurityIntegrationTest {
             UserStatus.ACTIVE
     );
 
-    UserEntity userEntity = UserEntity.createUser("","","", UserRole.USER,UserStatus.ACTIVE);
+    UserEntity userEntity = UserEntity.createUser("","","");
 
 
     @Test

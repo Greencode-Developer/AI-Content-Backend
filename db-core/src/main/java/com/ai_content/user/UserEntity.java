@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "users")
@@ -34,33 +36,36 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false)
     private UserStatus status;
 
+    @Column(name = "last_login_at")
+    private LocalDateTime lastLoginAt;
+
     @Builder(access = AccessLevel.PRIVATE)
     public UserEntity(
             String name,
             String email,
             String password,
             UserRole role,
-            UserStatus status) {
+            UserStatus status,
+            LocalDateTime lastLoginAt) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
         this.status = status;
+        this.lastLoginAt = lastLoginAt;
     }
 
     public static UserEntity createUser(
             String name,
             String email,
-            String password,
-            UserRole role,
-            UserStatus status
+            String password
     ) {
         return UserEntity.builder()
                 .name(name)
                 .email(email)
                 .password(password)
-                .role(role)
-                .status(status)
+                .role(UserRole.USER)
+                .status(UserStatus.ACTIVE)
                 .build();
     }
 
