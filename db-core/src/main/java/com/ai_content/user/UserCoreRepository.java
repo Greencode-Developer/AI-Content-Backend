@@ -27,4 +27,15 @@ public class UserCoreRepository implements UserRepository {
     public void updateLastLoginAt(Long id) {
         userJpaRepository.updateLastLoginAt(id);
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userJpaRepository.existsByEmail(email);
+    }
+
+    @Override
+    public User save(String fullName, String email, String encodedPassword) {
+        UserEntity userEntity = userJpaRepository.save(UserEntity.createUser(fullName,email,encodedPassword));
+        return UserEntity.toDomain(userEntity);
+    }
 }

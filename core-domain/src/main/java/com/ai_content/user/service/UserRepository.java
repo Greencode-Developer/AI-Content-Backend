@@ -11,4 +11,8 @@ public interface UserRepository {
     Optional<User> findByEmail(String email);
 
     void updateLastLoginAt(Long id);
+
+    boolean existsByEmail(String email);
+
+    User save(String fullName, String email, String encodedPassword);
 }

@@ -27,7 +27,17 @@ public class UserService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOTFOUND));
     }
 
+
+
     public void updateLastLoginAt(Long id) {
          userRepository.updateLastLoginAt(id);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public User save(String fullName, String email, String encodedPassword) {
+        return userRepository.save(fullName,email,encodedPassword);
     }
 }

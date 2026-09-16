@@ -6,6 +6,7 @@ import com.ai_content.config.jwt.JwtTokenProvider;
 import com.ai_content.config.jwt.TokenPayload;
 import com.ai_content.service.result.LoginResult;
 import com.ai_content.service.result.LogoutResult;
+import com.ai_content.service.result.RegisterResult;
 import com.ai_content.user.domain.User;
 import com.ai_content.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,32 @@ public class AuthFacade {
                 jwtTokenProvider.getRefreshTokenValidity()
         );
     }
+
+    @Transactional
+    public RegisterResult register(String fullName, String email, String password) {
+
+        if (userService.existsByEmail(email)) {
+            throw new CustomException(ErrorCode.EMAIL_ALREADY_EXISTS);
+        }
+
+        String encodedPassword = passwordEncoder.encode(password);
+
+        User user = userService.save(fullName,email,encodedPassword);
+
+        userService.updateLastLoginAt(user.id());
+
+        String accessToken = jwtTokenProvider.createAccessToken(user);
+        String refreshToken = jwtTokenProvider.createRefreshToken(user);
+
+        return new RegisterResult(
+                accessToken,
+                refreshToken,
+                "Bearer",
+                jwtTokenProvider.getAccessTokenValidity(),
+                jwtTokenProvider.getRefreshTokenValidity()
+        );
+    }
+
 
     public LogoutResult logout() {
         return new LogoutResult(true, "You have been logged out.");
