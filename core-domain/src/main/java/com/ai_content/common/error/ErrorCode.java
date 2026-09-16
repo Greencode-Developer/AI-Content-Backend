@@ -19,7 +19,8 @@ public enum ErrorCode {
     USER_TOKEN_EXPIRED("AUTH-002", "Token expired"),
     USER_UNAUTHORIZED("AUTH-003","Unauthorized"),
     USER_FORBIDDEN("AUTH-004","FORBIDDEN" ),
-    USER_NOTFOUND("AUTH-005","NOTFOUND" );
+    USER_NOTFOUND("AUTH-005","NOTFOUND" ),
+    USER_INVALID_PASSWORD("AUTH-006", "USER_INVALID_PASSWORD");
 
     private final String code;
 

@@ -40,6 +40,14 @@ public class JwtTokenProvider {
         return parseToken(token, TOKEN_TYPE_REFRESH);
     }
 
+    public long getAccessTokenValidity() {
+        return jwtProperties.accessTokenValidity();
+    }
+
+    public long getRefreshTokenValidity() {
+        return jwtProperties.refreshTokenValidity();
+    }
+
     private String createToken(User user, String tokenType ,long validity) {
         if (user.id() == null) {
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
@@ -97,5 +105,6 @@ public class JwtTokenProvider {
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(jwtProperties.secret().getBytes());
     }
+
 
 }

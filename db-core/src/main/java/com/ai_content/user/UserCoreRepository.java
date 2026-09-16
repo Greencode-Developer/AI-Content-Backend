@@ -17,4 +17,14 @@ public class UserCoreRepository implements UserRepository {
     public Optional<User> findById(Long id) {
         return userJpaRepository.findById(id).map(UserEntity::toDomain);
     }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userJpaRepository.findByEmail(email).map(UserEntity::toDomain);
+    }
+
+    @Override
+    public void updateLastLoginAt(Long id) {
+        userJpaRepository.updateLastLoginAt(id);
+    }
 }
