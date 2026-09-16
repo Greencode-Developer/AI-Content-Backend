@@ -4,6 +4,7 @@ import com.ai_content.common.error.CustomException;
 import com.ai_content.common.error.ErrorCode;
 import com.ai_content.config.jwt.JwtTokenProvider;
 import com.ai_content.service.result.LoginResult;
+import com.ai_content.service.result.LogoutResult;
 import com.ai_content.user.domain.User;
 import com.ai_content.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,10 @@ public class AuthFacade {
                 jwtTokenProvider.getAccessTokenValidity(),
                 jwtTokenProvider.getRefreshTokenValidity()
         );
+    }
+
+    public LogoutResult logout() {
+        return new LogoutResult(true, "You have been logged out.");
     }
 
 }
