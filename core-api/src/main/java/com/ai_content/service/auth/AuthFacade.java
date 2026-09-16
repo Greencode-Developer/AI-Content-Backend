@@ -3,6 +3,7 @@ package com.ai_content.service.auth;
 import com.ai_content.common.error.CustomException;
 import com.ai_content.common.error.ErrorCode;
 import com.ai_content.config.jwt.JwtTokenProvider;
+import com.ai_content.config.jwt.TokenPayload;
 import com.ai_content.service.result.LoginResult;
 import com.ai_content.service.result.LogoutResult;
 import com.ai_content.user.domain.User;
@@ -46,4 +47,24 @@ public class AuthFacade {
         return new LogoutResult(true, "You have been logged out.");
     }
 
+    @Transactional
+    public LoginResult refresh(String refreshToken) {
+        TokenPayload payload = jwtTokenProvider.parseRefreshToken(refreshToken);
+        User user = userService.getById(payload.userId());
+
+        if (!user.id().equals(payload.userId()) || user.role() != payload.roleUser()) {
+            throw new CustomException(ErrorCode.USER_TOKEN_INVALID);
+        }
+
+        String accessToken = jwtTokenProvider.createAccessToken(user);
+        String reissuedRefreshToken = jwtTokenProvider.createRefreshToken(user);
+
+        return new LoginResult(
+                accessToken,
+                reissuedRefreshToken,
+                "Bearer",
+                jwtTokenProvider.getAccessTokenValidity(),
+                jwtTokenProvider.getRefreshTokenValidity()
+        );
+    }
 }

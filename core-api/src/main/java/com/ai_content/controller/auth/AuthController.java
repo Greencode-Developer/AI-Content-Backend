@@ -2,6 +2,7 @@ package com.ai_content.controller.auth;
 
 import com.ai_content.controller.auth.request.LoginRequest;
 import com.ai_content.controller.auth.request.LogoutResponse;
+import com.ai_content.controller.auth.request.RefreshRequest;
 import com.ai_content.controller.auth.response.LoginResponse;
 import com.ai_content.service.auth.AuthFacade;
 import jakarta.validation.Valid;
@@ -26,6 +27,11 @@ public class AuthController {
     @PostMapping("/logout")
     public LogoutResponse logout() {
         return LogoutResponse.from(authFacade.logout());
+    }
+
+    @PostMapping("/refresh")
+    public LoginResponse refresh(@RequestBody @Valid RefreshRequest request) {
+        return LoginResponse.from(authFacade.refresh(request.refreshToken()));
     }
 
 }
