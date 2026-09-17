@@ -1,24 +1,42 @@
 spring:
-#  config:
-#    activate:
-#      on-profile: test
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 100
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
 
   datasource:
-    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
     driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:core;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password:
 
   jpa:
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        default_batch_fetch_size: 1000
+    database-platform: org.hibernate.dialect.H2Dialect
 
-logging:
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.orm.jdbc.bind: trace
+---
+spring:
+  config:
+    activate:
+      on-profile: local,dev
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DATASOURCE_DB_CORE_JDBC_URL:jdbc:postgresql://localhost:5432/content}
+    username: ${DATASOURCE_DB_CORE_USERNAME:content}
+    password: ${DATASOURCE_DB_CORE_PASSWORD:content!@}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
