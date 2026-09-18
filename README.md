@@ -48,28 +48,9 @@ This project adopts a **Modular Monolith** architecture based on **Clean Archite
         ├── user/                        # User REST Controllers
         └── advice/                      # Global exception handling & standard API responses
 ```
-
 ---
 
-#### Layer Responsibilities:
-1. **`core-domain` (Core)**:
-   - Holds pure domain objects (immutable Java `record`), business logic, and error definitions.
-   - Declares repository interfaces (**Ports**) without any knowledge of JPA or SQL.
-   - Zero dependency on `core-api` and `db-core`.
-
-2. **`db-core` (Infrastructure - Persistence)**:
-   - Implements domain repository interfaces (**Adapters**).
-   - Manages JPA entities, lifecycle hooks, and database migrations via Flyway.
-   - Converts `UserEntity` (JPA) $\leftrightarrow$ `User` (Domain Record).
-
-3. **`core-api` (Infrastructure - Presentation)**:
-   - Handles HTTP requests, input validation, serialization, and API response standardization (`GlobalApiResponse`).
-   - Intercepts requests via `JwtAuthenticationFilter` and extracts authenticated users via `@CurrentUser`.
-   - Aggregates `core-domain` and `db-core` into the executable application artifact (`bootJar`).
-
----
-
-### 4. Technical Stack
+### 3. Technical Stack
 
 | Component | Technology | Description |
 | :--- | :--- | :--- |
@@ -82,22 +63,3 @@ This project adopts a **Modular Monolith** architecture based on **Clean Archite
 | **Build Tool** | Gradle | Multi-module build management |
 
 ---
-
-### 5. Getting Started
-
-#### Prerequisites
-- JDK 17 or higher
-- Gradle (or use the provided `./gradlew` wrapper)
-
-#### Build & Run
-```bash
-# Clone the repository
-git clone <repository-url>
-cd content_web
-
-# Build all modules
-./gradlew build
-
-# Run the API application
-./gradlew :core-api:bootRun
-```
