@@ -18,9 +18,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PillarEntity extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Column(nullable = false)
     private String name;
@@ -40,14 +39,14 @@ public class PillarEntity extends BaseEntity {
 
     @Builder(access = AccessLevel.PRIVATE)
     public PillarEntity(
-            UserEntity userEntity,
+            Long userId,
             String name,
             String purpose,
             BigDecimal targetRatio,
             boolean lockNoReduce,
             PillarStatus status
     ) {
-        this.user = userEntity;
+        this.userId = userId;
         this.name = name;
         this.purpose = purpose;
         this.targetRatio = targetRatio;
@@ -56,14 +55,14 @@ public class PillarEntity extends BaseEntity {
     }
 
     public static PillarEntity create(
-            UserEntity userEntity,
+            Long userId,
             String name,
             String purpose,
             BigDecimal targetRatio,
             boolean lockNoReduce
     ) {
         return PillarEntity.builder()
-                .userEntity(userEntity)
+                .userId(userId)
                 .name(name)
                 .purpose(purpose)
                 .targetRatio(targetRatio)
@@ -75,7 +74,7 @@ public class PillarEntity extends BaseEntity {
     public static Pillar toDomain(PillarEntity entity) {
         return new Pillar(
                 entity.getId(),
-                entity.getUser().getId(),
+                entity.getUserId(),
                 entity.getName(),
                 entity.getPurpose(),
                 entity.getTargetRatio(),
