@@ -10,6 +10,5 @@ public interface PillarRepository {
                         String name,
                         String purpose,
                         BigDecimal targetRatio,
-                        boolean lockNoReduce,
-                        PillarStatus status);
+                        boolean lockNoReduce);
 }
