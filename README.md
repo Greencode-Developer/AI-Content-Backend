@@ -1,23 +1,23 @@
-# AI Content Web Service (content_web)
+# 🤖AI Content Web Service
 
 An backend service designed to automate content research, trend analysis, and content generation for business owners and content creators.
 
----
+![AI-image](image/AI-image.png)
 
-## 🏗️ System Architecture
+## 🛠 Technical Stack
 
-### 1. Architecture Overview
-This project adopts a **Modular Monolith** architecture based on **Clean Architecture** and **Hexagonal (Ports & Adapters)** principles. It provides high maintainability, clear domain boundaries, and strong decoupling between business logic and infrastructure.
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Language** | Java 17+ | Modern Java Records & Features |
+| **Framework** | Spring Boot `3.2.0` | Core Application Framework |
+| **Security** | Spring Security & JJWT `0.11.5` | Stateless JWT Authentication & RBAC |
+| **Persistence** | Spring Data JPA / Hibernate | ORM & Data Access |
+| **Database** | PostgreSQL / H2 (In-memory) | Production / Test Datasources |
+| **Migration** | Flyway | Database version control & schema migration |
+| **Build Tool** | Gradle | Multi-module build management |
 
-#### Key Design Principles:
-* **Domain-Centric Design**: The business domain is the core of the system and does not depend on external frameworks or databases.
-* **Dependency Inversion Principle (DIP)**: High-level business logic defines repository interfaces (Ports), while low-level infrastructure implements them (Adapters).
-* **Multi-Module Separation**: Strict boundary separation across Gradle subprojects (`core-api`, `core-domain`, `db-core`).
-* **Stateless Security**: JWT-based authentication integrated with Spring Security and custom resolver annotations (`@CurrentUser`).
-
----
-
-### 2. Multi-Module Project Structure
+## 📦 Package
+This project adopts a **Modular Monolith** architecture based on **Clean Architecture** principles.
 
 ```text
 📦 content_web (Root)
@@ -48,18 +48,8 @@ This project adopts a **Modular Monolith** architecture based on **Clean Archite
         ├── user/                        # User REST Controllers
         └── advice/                      # Global exception handling & standard API responses
 ```
----
+## 🌐Architecture System
+![architecture](image/architecture.png)
 
-### 3. Technical Stack
+##  🧱 ERD
 
-| Component | Technology | Description |
-| :--- | :--- | :--- |
-| **Language** | Java 17+ | Modern Java Records & Features |
-| **Framework** | Spring Boot `3.2.0` | Core Application Framework |
-| **Security** | Spring Security & JJWT `0.11.5` | Stateless JWT Authentication & RBAC |
-| **Persistence** | Spring Data JPA / Hibernate | ORM & Data Access |
-| **Database** | PostgreSQL / H2 (In-memory) | Production / Test Datasources |
-| **Migration** | Flyway | Database version control & schema migration |
-| **Build Tool** | Gradle | Multi-module build management |
-
----
