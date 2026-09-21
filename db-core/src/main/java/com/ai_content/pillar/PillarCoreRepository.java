@@ -43,5 +43,10 @@ public class PillarCoreRepository implements PillarRepository {
         return PillarEntity.toDomain(pillarEntity);
     }
 
+    @Override
+    public void delete(Long pillarId) {
+        PillarEntity pillarEntity = pillarJpaRepository.findById(pillarId).orElseThrow();
+        pillarEntity.delete();
+    }
 
 }

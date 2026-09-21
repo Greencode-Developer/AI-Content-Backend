@@ -66,5 +66,16 @@ public class PillarService {
 
         return pillarRepository.update(updatedPillar);
     }
+    @Transactional
+    public void deletePillar(Long userId, Long pillarId) {
+        Pillar currentPillar = pillarRepository.getPillar(pillarId)
+                .filter(Pillar::isActive)
+                .orElseThrow(() -> new CustomException(ErrorCode.PILLAR_NOTFOUND));
 
+        if (!currentPillar.userId().equals(userId)) {
+            throw new CustomException(ErrorCode.PILLAR_NOTFOUND);
+        }
+
+        pillarRepository.delete(pillarId);
+    }
 }

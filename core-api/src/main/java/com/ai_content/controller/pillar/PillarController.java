@@ -37,4 +37,9 @@ public class PillarController {
                                 @RequestBody UpdatePillarRequest request){
         return pillarService.updatePillar(user.id(),pillarId,request.toCommand(request));
     }
+
+    @DeleteMapping("/{pillarId}")
+    public void deletePillar(@CurrentUser User user, @PathVariable Long pillarId){
+        pillarService.deletePillar(user.id(),pillarId);
+    }
 }

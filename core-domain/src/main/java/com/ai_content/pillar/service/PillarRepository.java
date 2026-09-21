@@ -16,4 +16,6 @@ public interface PillarRepository {
     Optional<Pillar> getPillar(Long pillarId);
 
     Pillar update(Pillar updatedPillar);
+
+    void delete(Long pillarId);
 }

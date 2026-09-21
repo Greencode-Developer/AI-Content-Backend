@@ -88,4 +88,9 @@ public class PillarEntity extends BaseEntity {
         this.targetRatio = updatedPillar.targetRatio();
         this.lockNoReduce = updatedPillar.lockNoReduce();
     }
+
+    public void delete() {
+        this.status = PillarStatus.DELETED;
+        this.softDelete();
+    }
 }
