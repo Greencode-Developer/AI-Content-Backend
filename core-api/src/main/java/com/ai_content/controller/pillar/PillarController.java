@@ -22,7 +22,6 @@ public class PillarController {
         CreatePillarRequest createPillarRequest = CreatePillarRequest.of(
                 request.name(),
                 request.purpose(),
-                request.targetRatio(),
                 request.lockNoReduce());
         return pillarService.createPillar(createPillarRequest.toCommand(user.id()));
     }

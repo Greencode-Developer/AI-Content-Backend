@@ -8,13 +8,11 @@ public record CreatePillarCommand(
     Long userId,
     String name,
     String purpose,
-    BigDecimal targetRatio,
     boolean lockNoReduce){
     public static CreatePillarCommand of(Long userId,
                                          String name,
                                          String purpose,
-                                         BigDecimal targetRatio,
                                          boolean lockNoReduce){
-        return new CreatePillarCommand(userId, name, purpose, targetRatio, lockNoReduce);
+        return new CreatePillarCommand(userId, name, purpose, lockNoReduce);
     }
 }

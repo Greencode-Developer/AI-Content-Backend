@@ -14,23 +14,17 @@ public record CreatePillarRequest(
         @Size(max = 1000, message = "Purpose must not exceed 1000 characters")
         String purpose,
 
-        @NotNull(message = "Target ratio is required")
-        @DecimalMin(value = "0.00", message = "Target ratio must be >= 0.00")
-        @DecimalMax(value = "1.00", message = "Target ratio must be <= 1.00")
-        BigDecimal targetRatio,
-
         boolean lockNoReduce
 ) {
     public static CreatePillarRequest of(
             String name,
             String purpose,
-            BigDecimal targetRatio,
             boolean lockNoReduce
     ){
-        return new CreatePillarRequest(name, purpose, targetRatio, lockNoReduce);
+        return new CreatePillarRequest(name, purpose, lockNoReduce);
     }
 
     public CreatePillarCommand toCommand(Long userId){
-        return CreatePillarCommand.of(userId,name,purpose,targetRatio,lockNoReduce);
+        return CreatePillarCommand.of(userId,name,purpose,lockNoReduce);
     }
 }

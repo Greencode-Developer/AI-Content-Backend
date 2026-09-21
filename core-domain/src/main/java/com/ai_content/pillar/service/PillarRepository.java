@@ -9,6 +9,5 @@ public interface PillarRepository {
     Pillar createPillar(Long userId,
                         String name,
                         String purpose,
-                        BigDecimal targetRatio,
                         boolean lockNoReduce);
 }

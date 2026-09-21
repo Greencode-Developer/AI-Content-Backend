@@ -58,14 +58,13 @@ public class PillarEntity extends BaseEntity {
             Long userId,
             String name,
             String purpose,
-            BigDecimal targetRatio,
             boolean lockNoReduce
     ) {
         return PillarEntity.builder()
                 .userId(userId)
                 .name(name)
                 .purpose(purpose)
-                .targetRatio(targetRatio)
+                .targetRatio(BigDecimal.valueOf(0))
                 .lockNoReduce(lockNoReduce)
                 .status(PillarStatus.ACTIVE)
                 .build();

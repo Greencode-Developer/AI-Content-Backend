@@ -16,8 +16,8 @@ public class PillarCoreRepository implements PillarRepository {
     private final PillarJpaRepository pillarJpaRepository;
 
     @Override
-    public Pillar createPillar(Long userId, String name, String purpose, BigDecimal targetRatio, boolean lockNoReduce) {
-        PillarEntity pillar = pillarJpaRepository.save(PillarEntity.create(userId,name,purpose,targetRatio,lockNoReduce));
+    public Pillar createPillar(Long userId, String name, String purpose, boolean lockNoReduce) {
+        PillarEntity pillar = pillarJpaRepository.save(PillarEntity.create(userId,name,purpose,lockNoReduce));
         return PillarEntity.toDomain(pillar);
     }
 }
