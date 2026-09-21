@@ -8,7 +8,7 @@ public record Pillar(
         String name,
         String purpose,
         BigDecimal targetRatio,
-        boolean lockNoReduce,
+        Boolean lockNoReduce,
         PillarStatus status
 ) {
     public static Pillar of(
@@ -17,7 +17,7 @@ public record Pillar(
             String name,
             String purpose,
             BigDecimal targetRatio,
-            boolean lockNoReduce,
+            Boolean lockNoReduce,
             PillarStatus status
     ) {
         return new Pillar(
@@ -31,7 +31,7 @@ public record Pillar(
         );
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return this.status == PillarStatus.ACTIVE;
     }
 }
