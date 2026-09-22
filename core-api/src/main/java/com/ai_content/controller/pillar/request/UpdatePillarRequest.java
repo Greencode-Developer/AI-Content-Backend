@@ -14,7 +14,7 @@ public record UpdatePillarRequest(
 
         Boolean lockNoReduce
 ) {
-    public UpdatePillarCommand toCommand(UpdatePillarRequest request) {
-        return UpdatePillarCommand.of(request.name,request.purpose,request.lockNoReduce);
+    public UpdatePillarCommand toCommand() {
+        return UpdatePillarCommand.of(this.name,this.purpose,this.lockNoReduce);
     }
 }

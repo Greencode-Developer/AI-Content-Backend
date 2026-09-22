@@ -3,15 +3,17 @@ package com.ai_content.pillar.service;
 import com.ai_content.common.error.CustomException;
 import com.ai_content.common.error.ErrorCode;
 import com.ai_content.pillar.command.CreatePillarCommand;
+import com.ai_content.pillar.command.TargetRatioItemCommand;
 import com.ai_content.pillar.command.UpdatePillarCommand;
 import com.ai_content.pillar.domain.Pillar;
-import com.ai_content.user.domain.User;
-import com.ai_content.user.service.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -77,5 +79,58 @@ public class PillarService {
         }
 
         pillarRepository.delete(pillarId);
+    }
+
+    @Transactional
+    public List<Pillar>  updateTargetRatios(
+            Long userId,
+            List<TargetRatioItemCommand> commands
+    ) {
+        Map<Long, BigDecimal> requestedRatios = commands.stream()
+                .collect(Collectors.toMap(
+                        TargetRatioItemCommand::pillarId,
+                        TargetRatioItemCommand::targetRatio
+                ));
+
+        List<Long> pillarIds = commands.stream()
+                .map(TargetRatioItemCommand::pillarId)
+                .toList();
+
+        List<Pillar> pillars =
+                pillarRepository.findAllByIdInAndUserId(
+                        pillarIds,
+                        userId
+                );
+
+        if (pillars.size() != pillarIds.size()) {
+            throw new CustomException(ErrorCode.PILLAR_NOTFOUND);
+        }
+
+        List<Pillar> updatedPillars = pillars.stream()
+                .map(pillar -> {
+                    BigDecimal targetRatio =
+                            requestedRatios.get(pillar.id());
+
+                    return Pillar.of(
+                            pillar.id(),
+                            pillar.userId(),
+                            pillar.name(),
+                            pillar.purpose(),
+                            targetRatio,
+                            pillar.lockNoReduce(),
+                            pillar.status()
+                    );
+                })
+                .toList();
+
+        BigDecimal total = updatedPillars.stream()
+                .map(Pillar::targetRatio)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        if (total.compareTo(BigDecimal.ONE) != 0) {
+            throw new CustomException(ErrorCode.InvalidTargetRatio);
+        }
+
+        return pillarRepository.saveAll(updatedPillars);
     }
 }

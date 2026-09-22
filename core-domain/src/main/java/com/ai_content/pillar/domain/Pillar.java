@@ -34,4 +34,6 @@ public record Pillar(
     public Boolean isActive() {
         return this.status == PillarStatus.ACTIVE;
     }
+
+
 }

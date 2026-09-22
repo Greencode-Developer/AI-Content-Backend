@@ -6,7 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -49,4 +52,41 @@ public class PillarCoreRepository implements PillarRepository {
         pillarEntity.delete();
     }
 
+    @Override
+    public List<Pillar> findAllByIdInAndUserId(
+            List<Long> pillarIds,
+            Long userId
+    ) {
+        return pillarJpaRepository
+                .findAllByIdInAndUserId(pillarIds, userId)
+                .stream()
+                .map(PillarEntity::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Pillar> saveAll(List<Pillar> updatedPillars) {
+        List<Long> pillarIds = updatedPillars.stream()
+                .map(Pillar::id)
+                .toList();
+
+        List<PillarEntity> entities =
+                pillarJpaRepository.findAllById(pillarIds);
+
+        Map<Long, Pillar> pillarMap = updatedPillars.stream()
+                .collect(Collectors.toMap(
+                        Pillar::id,
+                        Function.identity()
+                ));
+
+        entities.forEach(entity ->
+                entity.apply(pillarMap.get(entity.getId()))
+        );
+
+        pillarJpaRepository.saveAll(entities);
+
+        return entities.stream()
+                .map(PillarEntity::toDomain)
+                .toList();
+    }
 }

@@ -3,13 +3,14 @@ package com.ai_content.controller.pillar;
 import com.ai_content.config.web.annotation.CurrentUser;
 import com.ai_content.controller.advice.GlobalApiResponse;
 import com.ai_content.controller.pillar.request.CreatePillarRequest;
+import com.ai_content.controller.pillar.request.TargetRatioItem;
 import com.ai_content.controller.pillar.request.UpdatePillarRequest;
+import com.ai_content.pillar.command.TargetRatioItemCommand;
 import com.ai_content.pillar.domain.Pillar;
 import com.ai_content.pillar.service.PillarService;
 import com.ai_content.user.domain.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,11 +36,20 @@ public class PillarController {
     public Pillar updatePillar( @CurrentUser User user,
                                 @PathVariable Long pillarId,
                                 @RequestBody UpdatePillarRequest request){
-        return pillarService.updatePillar(user.id(),pillarId,request.toCommand(request));
+        return pillarService.updatePillar(user.id(),pillarId,request.toCommand());
     }
 
     @DeleteMapping("/{pillarId}")
     public void deletePillar(@CurrentUser User user, @PathVariable Long pillarId){
         pillarService.deletePillar(user.id(),pillarId);
     }
+
+    @PatchMapping("/target-ratios")
+    public List<Pillar>  updateTargetRatios(
+            @CurrentUser User user,
+            @RequestBody List<TargetRatioItem> request
+    ) {
+        return pillarService.updateTargetRatios(user.id(), TargetRatioItem.toCommand(request));
+    }
+
 }
