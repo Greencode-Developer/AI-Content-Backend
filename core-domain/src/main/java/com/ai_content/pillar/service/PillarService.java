@@ -82,7 +82,7 @@ public class PillarService {
     }
 
     @Transactional
-    public List<Pillar>  updateTargetRatios(
+    public List<Pillar> updateTargetRatios(
             Long userId,
             List<TargetRatioItemCommand> commands
     ) {
@@ -92,24 +92,24 @@ public class PillarService {
                         TargetRatioItemCommand::targetRatio
                 ));
 
-        List<Long> pillarIds = commands.stream()
-                .map(TargetRatioItemCommand::pillarId)
-                .toList();
-
         List<Pillar> pillars =
-                pillarRepository.findAllByIdInAndUserId(
-                        pillarIds,
-                        userId
-                );
+                pillarRepository.getPillars(userId);
 
-        if (pillars.size() != pillarIds.size()) {
+        if (!pillars.stream()
+                .map(Pillar::id)
+                .collect(Collectors.toSet())
+                .containsAll(requestedRatios.keySet())) {
+
             throw new CustomException(ErrorCode.PILLAR_NOTFOUND);
         }
 
         List<Pillar> updatedPillars = pillars.stream()
                 .map(pillar -> {
                     BigDecimal targetRatio =
-                            requestedRatios.get(pillar.id());
+                            requestedRatios.getOrDefault(
+                                    pillar.id(),
+                                    pillar.targetRatio()
+                            );
 
                     return Pillar.of(
                             pillar.id(),
@@ -128,7 +128,9 @@ public class PillarService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         if (total.compareTo(BigDecimal.ONE) != 0) {
-            throw new CustomException(ErrorCode.InvalidTargetRatio);
+            throw new CustomException(
+                    ErrorCode.InvalidTargetRatio
+            );
         }
 
         return pillarRepository.saveAll(updatedPillars);

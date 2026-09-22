@@ -19,7 +19,5 @@ public interface PillarRepository {
 
     void delete(Long pillarId);
 
-    List<Pillar> findAllByIdInAndUserId(List<Long> pillarIds, Long userId);
-
-    List<Pillar>  saveAll(List<Pillar> updatedPillars);
+    List<Pillar> saveAll(List<Pillar> updatedPillars);
 }

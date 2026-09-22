@@ -53,18 +53,6 @@ public class PillarCoreRepository implements PillarRepository {
     }
 
     @Override
-    public List<Pillar> findAllByIdInAndUserId(
-            List<Long> pillarIds,
-            Long userId
-    ) {
-        return pillarJpaRepository
-                .findAllByIdInAndUserId(pillarIds, userId)
-                .stream()
-                .map(PillarEntity::toDomain)
-                .toList();
-    }
-
-    @Override
     public List<Pillar> saveAll(List<Pillar> updatedPillars) {
         List<Long> pillarIds = updatedPillars.stream()
                 .map(Pillar::id)
