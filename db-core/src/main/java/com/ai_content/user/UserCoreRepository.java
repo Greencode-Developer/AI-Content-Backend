@@ -51,4 +51,6 @@ public class UserCoreRepository implements UserRepository {
         UserEntity userEntity = userJpaRepository.save(UserEntity.createUser(fullName,email,encodedPassword));
         return UserEntity.toDomain(userEntity);
     }
+
+
 }
