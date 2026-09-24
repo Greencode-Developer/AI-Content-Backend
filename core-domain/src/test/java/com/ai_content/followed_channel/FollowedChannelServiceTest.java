@@ -80,7 +80,6 @@ class FollowedChannelServiceTest {
         }
 
         @Test
-        @DisplayName("새 채널 follow 성공 시 저장된 도메인 객체를 반환한다")
         void create_success_returnsCreatedChannel() {
             FollowedChannel expected = activeChannel();
 
@@ -102,7 +101,6 @@ class FollowedChannelServiceTest {
         }
 
         @Test
-        @DisplayName("이미 follow한 URL이면 FOLLOWED_CHANNEL_DUPLICATE_URL 예외를 던진다")
         void create_duplicateUrl_throwsDuplicateException() {
             when(followedChannelRepository.existsByUserIdAndChannelUrl(USER_ID, CHANNEL_URL))
                     .thenReturn(true);
@@ -123,7 +121,6 @@ class FollowedChannelServiceTest {
     class GetAll {
 
         @Test
-        @DisplayName("사용자의 followed channel 목록을 페이지로 반환한다")
         void getAll_returnsPageOfUserChannels() {
             Pageable pageable = PageRequest.of(0, 20);
             Page<FollowedChannel> expected = new PageImpl<>(List.of(activeChannel()));
@@ -139,7 +136,6 @@ class FollowedChannelServiceTest {
         }
 
         @Test
-        @DisplayName("followed channel이 없으면 빈 페이지를 반환한다")
         void getAll_noChannels_returnsEmptyPage() {
             Pageable pageable = PageRequest.of(0, 20);
             when(followedChannelRepository.findAllByUserId(USER_ID, pageable))
@@ -158,7 +154,6 @@ class FollowedChannelServiceTest {
     class GetOne {
 
         @Test
-        @DisplayName("본인 채널 조회 성공")
         void getOne_ownerRequest_returnsChannel() {
             when(followedChannelRepository.findByIdAndUserId(CHANNEL_ID, USER_ID))
                     .thenReturn(Optional.of(activeChannel()));
@@ -170,7 +165,6 @@ class FollowedChannelServiceTest {
         }
 
         @Test
-        @DisplayName("존재하지 않는 ID이면 FOLLOWED_CHANNEL_NOT_FOUND 예외를 던진다")
         void getOne_notFound_throwsNotFoundException() {
             when(followedChannelRepository.findByIdAndUserId(CHANNEL_ID, USER_ID))
                     .thenReturn(Optional.empty());
@@ -182,7 +176,6 @@ class FollowedChannelServiceTest {
         }
 
         @Test
-        @DisplayName("다른 유저의 채널 조회 시 FOLLOWED_CHANNEL_NOT_FOUND 예외를 던진다")
         void getOne_otherUserChannel_throwsNotFoundException() {
             // findByIdAndUserId returns empty when userId doesn't match — 404, not 403
             when(followedChannelRepository.findByIdAndUserId(CHANNEL_ID, OTHER_USER))
@@ -202,7 +195,6 @@ class FollowedChannelServiceTest {
     class Update {
 
         @Test
-        @DisplayName("displayName 업데이트 성공")
         void update_displayName_success() {
             UpdateFollowedChannelCommand command = UpdateFollowedChannelCommand.of(
                     CHANNEL_ID, USER_ID, "New Name", null
@@ -226,7 +218,6 @@ class FollowedChannelServiceTest {
         }
 
         @Test
-        @DisplayName("isActive false로 비활성화 성공")
         void update_deactivate_success() {
             UpdateFollowedChannelCommand command = UpdateFollowedChannelCommand.of(
                     CHANNEL_ID, USER_ID, null, false
@@ -249,7 +240,6 @@ class FollowedChannelServiceTest {
         }
 
         @Test
-        @DisplayName("채널이 없거나 본인 소유가 아니면 FOLLOWED_CHANNEL_NOT_FOUND 예외")
         void update_notFound_throwsNotFoundException() {
             UpdateFollowedChannelCommand command = UpdateFollowedChannelCommand.of(
                     CHANNEL_ID, USER_ID, "X", null
@@ -273,7 +263,6 @@ class FollowedChannelServiceTest {
     class Delete {
 
         @Test
-        @DisplayName("본인 채널 soft delete 성공")
         void delete_ownerRequest_callsSoftDelete() {
             FollowedChannel existing = activeChannel();
 
@@ -286,7 +275,6 @@ class FollowedChannelServiceTest {
         }
 
         @Test
-        @DisplayName("채널이 없거나 본인 소유가 아니면 FOLLOWED_CHANNEL_NOT_FOUND 예외")
         void delete_notFound_throwsNotFoundException() {
             when(followedChannelRepository.findByIdAndUserId(CHANNEL_ID, USER_ID))
                     .thenReturn(Optional.empty());
@@ -300,7 +288,6 @@ class FollowedChannelServiceTest {
         }
 
         @Test
-        @DisplayName("다른 유저의 채널 삭제 시도 시 FOLLOWED_CHANNEL_NOT_FOUND 예외")
         void delete_otherUserChannel_throwsNotFoundException() {
             when(followedChannelRepository.findByIdAndUserId(CHANNEL_ID, OTHER_USER))
                     .thenReturn(Optional.empty());
