@@ -35,7 +35,7 @@ public class PillarEntity extends BaseEntity {
     private PillarStatus status;
 
     @Column(name = "lock_no_reduce", nullable = false)
-    private boolean lockNoReduce;
+    private Boolean lockNoReduce;
 
     @Builder(access = AccessLevel.PRIVATE)
     public PillarEntity(
@@ -43,7 +43,7 @@ public class PillarEntity extends BaseEntity {
             String name,
             String purpose,
             BigDecimal targetRatio,
-            boolean lockNoReduce,
+            Boolean lockNoReduce,
             PillarStatus status
     ) {
         this.userId = userId;
@@ -58,7 +58,7 @@ public class PillarEntity extends BaseEntity {
             Long userId,
             String name,
             String purpose,
-            boolean lockNoReduce
+            Boolean lockNoReduce
     ) {
         return PillarEntity.builder()
                 .userId(userId)
@@ -77,8 +77,20 @@ public class PillarEntity extends BaseEntity {
                 entity.getName(),
                 entity.getPurpose(),
                 entity.getTargetRatio(),
-                entity.isLockNoReduce(),
+                entity.getLockNoReduce(),
                 entity.getStatus()
         );
+    }
+
+    public void apply(Pillar updatedPillar) {
+        this.name = updatedPillar.name();
+        this.purpose = updatedPillar.purpose();
+        this.targetRatio = updatedPillar.targetRatio();
+        this.lockNoReduce = updatedPillar.lockNoReduce();
+    }
+
+    public void delete() {
+        this.status = PillarStatus.DELETED;
+        this.softDelete();
     }
 }
