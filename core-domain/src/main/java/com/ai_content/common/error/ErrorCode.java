@@ -26,7 +26,7 @@ public enum ErrorCode {
     // Followed Channel
     FOLLOWED_CHANNEL_NOT_FOUND("CHANNEL-001", "Followed channel not found"),
     FOLLOWED_CHANNEL_DUPLICATE_URL("CHANNEL-002", "This channel URL is already being followed"),
-    FOLLOWED_CHANNEL_FORBIDDEN("CHANNEL-003", "You do not have permission to access this followed channel");
+    FOLLOWED_CHANNEL_FORBIDDEN("CHANNEL-003", "You do not have permission to access this followed channel"),
     PILLAR_NOTFOUND("PILLAR-001","PILLAR_NOTFOUND"),
     InvalidTargetRatio("PILLAR-001","InvalidTargetRatio" );
 
