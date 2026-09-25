@@ -11,6 +11,8 @@ import com.ai_content.user.domain.User;
 import com.ai_content.user.domain.UserRole;
 import com.ai_content.user.domain.UserStatus;
 import com.ai_content.user.service.UserService;
+import com.ai_content.brandprofile.service.BrandProfileService;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,6 +34,9 @@ public class AuthFacadeTest {
 
     @Mock
     private JwtTokenProvider jwtTokenProvider;
+
+    @Mock
+    private BrandProfileService brandProfileService;
 
     @InjectMocks
     private AuthFacade authFacade;
@@ -154,6 +159,8 @@ public class AuthFacadeTest {
 
         verify(jwtTokenProvider).createAccessToken(user);
         verify(jwtTokenProvider).createRefreshToken(user);
+
+        verify(brandProfileService).createEmpty(user.id());
     }
 
     @Test
@@ -180,6 +187,8 @@ public class AuthFacadeTest {
 
         verify(jwtTokenProvider, never()).createAccessToken(any());
         verify(jwtTokenProvider, never()).createRefreshToken(any());
+
+        verifyNoInteractions(brandProfileService);
     }
 
     @Test
@@ -213,5 +222,38 @@ public class AuthFacadeTest {
                 email,
                 rawPassword
         );
+    }
+
+    @Test
+    void registerShouldStopWhenProfileCreationFails() {
+    String fullName = "Test User";
+    String email = "test@gmail.com";
+    String rawPassword = "user123!";
+    String encodedPassword = "$2a$10$encoded-password";
+
+    when(userService.existsByEmail(email)).thenReturn(false);
+    when(passwordEncoder.encode(rawPassword))
+            .thenReturn(encodedPassword);
+    when(userService.save(fullName, email, encodedPassword))
+            .thenReturn(user);
+
+    RuntimeException failure =
+            new RuntimeException("Không thể tạo hồ sơ thương hiệu");
+
+    when(brandProfileService.createEmpty(user.id()))
+            .thenThrow(failure);
+
+    RuntimeException actual = assertThrows(
+            RuntimeException.class,
+            () -> authFacade.register(fullName, email, rawPassword)
+    );
+
+    assertThat(actual).isSameAs(failure);
+
+    verify(userService).save(fullName, email, encodedPassword);
+    verify(brandProfileService).createEmpty(user.id());
+
+    verify(userService, never()).updateLastLoginAt(anyLong());
+    verifyNoInteractions(jwtTokenProvider);
     }
 }

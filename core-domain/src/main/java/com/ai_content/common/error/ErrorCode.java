@@ -23,7 +23,18 @@ public enum ErrorCode {
     USER_INVALID_PASSWORD("AUTH-006", "USER_INVALID_PASSWORD"),
     EMAIL_ALREADY_EXISTS("AUTH-006","EMAIL_ALREADY_EXISTS"),
     PILLAR_NOTFOUND("PILLAR-001","PILLAR_NOTFOUND"),
-    InvalidTargetRatio("PILLAR-001","InvalidTargetRatio" );
+    // InvalidTargetRatio("PILLAR-001","InvalidTargetRatio" );
+    InvalidTargetRatio("PILLAR-001","InvalidTargetRatio" ),
+
+    BRAND_PROFILE_NOT_FOUND(
+        "BRAND_PROFILE_NOT_FOUND",
+        "Không tìm thấy hồ sơ thương hiệu"
+    ),
+
+    BRAND_PROFILE_VALIDATION_ERROR(
+        "VALIDATION_ERROR",
+        "Dữ liệu hồ sơ thương hiệu không hợp lệ"
+    );
 
     private final String code;
 
