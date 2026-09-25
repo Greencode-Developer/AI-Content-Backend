@@ -21,7 +21,12 @@ public enum ErrorCode {
     USER_FORBIDDEN("AUTH-004","FORBIDDEN" ),
     USER_NOTFOUND("AUTH-005","NOTFOUND" ),
     USER_INVALID_PASSWORD("AUTH-006", "USER_INVALID_PASSWORD"),
-    EMAIL_ALREADY_EXISTS("AUTH-006","EMAIL_ALREADY_EXISTS"),
+    EMAIL_ALREADY_EXISTS("AUTH-007","EMAIL_ALREADY_EXISTS"),
+
+    // Followed Channel
+    FOLLOWED_CHANNEL_NOT_FOUND("CHANNEL-001", "Followed channel not found"),
+    FOLLOWED_CHANNEL_DUPLICATE_URL("CHANNEL-002", "This channel URL is already being followed"),
+    FOLLOWED_CHANNEL_FORBIDDEN("CHANNEL-003", "You do not have permission to access this followed channel"),
     PILLAR_NOTFOUND("PILLAR-001","PILLAR_NOTFOUND"),
     // InvalidTargetRatio("PILLAR-001","InvalidTargetRatio" );
     InvalidTargetRatio("PILLAR-001","InvalidTargetRatio" ),

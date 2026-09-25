@@ -17,7 +17,8 @@ public class ErrorHttpStatusMapper {
             case METHOD_NOT_ALLOWED ->
                     HttpStatus.METHOD_NOT_ALLOWED;
 
-            case USER_FORBIDDEN ->
+            case USER_FORBIDDEN,
+                    FOLLOWED_CHANNEL_FORBIDDEN ->
                     HttpStatus.FORBIDDEN;
 
             case USER_NOTFOUND,
@@ -26,8 +27,13 @@ public class ErrorHttpStatusMapper {
                     USER_TOKEN_EXPIRED ->
                     HttpStatus.UNAUTHORIZED;
 
-            case BRAND_PROFILE_NOT_FOUND ->
+            case BRAND_PROFILE_NOT_FOUND,
+                    FOLLOWED_CHANNEL_NOT_FOUND ->
                     HttpStatus.NOT_FOUND;
+
+            case EMAIL_ALREADY_EXISTS,
+                    FOLLOWED_CHANNEL_DUPLICATE_URL ->
+                    HttpStatus.CONFLICT;
 
             default ->
                     HttpStatus.INTERNAL_SERVER_ERROR;
