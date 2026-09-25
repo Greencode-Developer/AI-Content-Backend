@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(properties = {
-        "spring.datasource.url=jdbc:postgresql://localhost:55433/brand_profile_test",
+        "spring.datasource.url=jdbc:postgresql://localhost:55433/brand_profile_test_v5",
         "spring.datasource.username=brand_test",
         "spring.datasource.password=brand_test_password",
         "spring.datasource.driver-class-name=org.postgresql.Driver",
