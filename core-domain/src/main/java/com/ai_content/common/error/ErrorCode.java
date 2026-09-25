@@ -28,7 +28,18 @@ public enum ErrorCode {
     FOLLOWED_CHANNEL_DUPLICATE_URL("CHANNEL-002", "This channel URL is already being followed"),
     FOLLOWED_CHANNEL_FORBIDDEN("CHANNEL-003", "You do not have permission to access this followed channel"),
     PILLAR_NOTFOUND("PILLAR-001","PILLAR_NOTFOUND"),
-    InvalidTargetRatio("PILLAR-001","InvalidTargetRatio" );
+    // InvalidTargetRatio("PILLAR-001","InvalidTargetRatio" );
+    InvalidTargetRatio("PILLAR-001","InvalidTargetRatio" ),
+
+    BRAND_PROFILE_NOT_FOUND(
+        "BRAND_PROFILE_NOT_FOUND",
+        "Không tìm thấy hồ sơ thương hiệu"
+    ),
+
+    BRAND_PROFILE_VALIDATION_ERROR(
+        "VALIDATION_ERROR",
+        "Dữ liệu hồ sơ thương hiệu không hợp lệ"
+    );
 
     private final String code;
 

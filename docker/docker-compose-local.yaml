@@ -6,13 +6,12 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: content
-      POSTGRES_USER: content
-      POSTGRES_PASSWORD: content!@
-      TZ: Asia/Ho_Chi_Minh
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: ${TZ}
     command: [ "postgres", "-c", "log_statement=all" ]
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
     networks:
       - content-network

@@ -9,7 +9,10 @@ import com.ai_content.service.result.LogoutResult;
 import com.ai_content.service.result.RegisterResult;
 import com.ai_content.user.domain.User;
 import com.ai_content.user.service.UserService;
+import com.ai_content.brandprofile.service.BrandProfileService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,7 @@ public class AuthFacade {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final BrandProfileService brandProfileService;
 
     @Transactional
     public LoginResult login(String email, String password) {
@@ -53,7 +57,13 @@ public class AuthFacade {
 
         String encodedPassword = passwordEncoder.encode(password);
 
-        User user = userService.save(fullName,email,encodedPassword);
+        // User user = userService.save(fullName,email,encodedPassword);
+
+        // userService.updateLastLoginAt(user.id());
+
+        User user = userService.save(fullName, email, encodedPassword);
+
+        brandProfileService.createEmpty(user.id());
 
         userService.updateLastLoginAt(user.id());
 

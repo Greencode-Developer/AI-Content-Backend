@@ -39,4 +39,26 @@ public class ErrorHttpStatusMapperTest {
         assertThat(mapper.toHttpStatus(ErrorCode.FOLLOWED_CHANNEL_FORBIDDEN))
                 .isEqualTo(HttpStatus.FORBIDDEN);
     }
+
+    @Test
+    void shouldMapBrandProfileErrors() {
+        assertThat(mapper.toHttpStatus(
+                ErrorCode.BRAND_PROFILE_NOT_FOUND
+        )).isEqualTo(HttpStatus.NOT_FOUND);
+
+        assertThat(mapper.toHttpStatus(
+                ErrorCode.BRAND_PROFILE_VALIDATION_ERROR
+        )).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void shouldMapInvalidAndExpiredTokensToUnauthorized() {
+        assertThat(mapper.toHttpStatus(
+                ErrorCode.USER_TOKEN_INVALID
+        )).isEqualTo(HttpStatus.UNAUTHORIZED);
+
+        assertThat(mapper.toHttpStatus(
+                ErrorCode.USER_TOKEN_EXPIRED
+        )).isEqualTo(HttpStatus.UNAUTHORIZED);
+    }
 }
