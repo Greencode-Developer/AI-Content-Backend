@@ -19,27 +19,74 @@ An backend service designed to automate content research, trend analysis, and co
 ## 📦 Package
 This project adopts a **Modular Monolith** architecture based on **Clean Architecture** principles.
 
+![clean-architecture](image/clean-architecture.png)
+
 ```text
 📦 Content AI Backend
-├── 🎯 core-domain/                      # Domain & Business Layer
-│   ├── common/                          
-│   │   └── error/                       # CustomException, ErrorCode definitions
-│   └── feature/                         # Bounded Context
-│       ├── domain/                      # Pure Domain Models
-│       └── service/                     # Application Services & Port Interfaces
-│           ├── FeatureService.java         # Domain logic & orchestration
-│           └── FeatureRepository.java      # Output Port (Repository Interface)
+├── 🎯 core-domain/                         # Domain & Application Layer
+│   ├── common/
+│   │   └── error/
+│   │       ├── CustomException.java
+│   │       └── ErrorCode.java
+│   │
+│   └── feature/
+│       ├── domain/                         # Pure Domain Models
+│       │   ├── Feature.java
+│       │   └── ...
+│       │
+│       └── service/                        # Application Services & Ports
+│           ├── FeatureService.java         # Business logic & orchestration
+│           ├── FeatureRepository.java     # Output Port
+│           └── AiGenerator.java            # Output Port
 │
-├── 💾 db-core/                          # Persistence & Storage Layer
-│   └── feature/                         # Persistence Implementation
-│       ├── FeatureEntity.java              # JPA Entity
-│       ├── FeatureJpaRepository.java       # Spring Data JPA Repository
-│       └── FeatureCoreRepository.java      # Adapter implementing UserRepository (Port)
+├── 💾 db-core/                              # Database Adapter
+│   └── feature/
+│       ├── FeatureEntity.java
+│       ├── FeatureJpaRepository.java
+│       └── FeatureCoreRepository.java      # Adapter
 │
-└── 🌐 core-api/                         # Presentation Layer
-    ├── AIContentApplication.java        # Spring Boot main entrypoint
-    ├── config/                          # Infrastructure & Framework Configurations
-    └── controller/                      # REST API Endpoints
+├── 🤖 external-ai/                          # External AI Adapter
+│   ├── config/
+│   │   └── BedrockConfig.java
+│   │
+│   ├── bedrock/
+│   │   ├── BedrockAiGenerator.java         # Adapter implements AiGenerator
+│   │   ├── BedrockClient.java
+│   │   └── ...
+│   │
+│   └── prompt/
+│       ├── IdeaPrompt.java
+│       └── ContentPrompt.java
+│
+├── 📨 queue-sqs/                            # AWS SQS Adapter
+│   ├── config/
+│   │   └── SqsConfig.java
+│   │
+│   ├── producer/
+│   │   └── SqsJobProducer.java
+│   │
+│   └── consumer/
+│       └── SqsJobConsumer.java
+│
+├── ⏰ schedule/                             # Scheduled Jobs
+│   ├── config/
+│   └── job/
+│       ├── RetryJob.java
+│       └── CleanupJob.java
+│
+└── 🌐 core-api/                             # REST API / Composition Root
+    ├── AIContentApplication.java
+    │
+    ├── config/
+    │   ├── SecurityConfig.java
+    │   ├── JacksonConfig.java
+    │   └── ...
+    │
+    └── controller/
+        ├── content/
+        ├── idea/
+        ├── brandprofile/
+        └── ...
 ```
 ## 🌐Architecture System
 ![architecture](image/architecture.png)
