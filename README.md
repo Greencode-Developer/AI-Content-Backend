@@ -20,33 +20,26 @@ An backend service designed to automate content research, trend analysis, and co
 This project adopts a **Modular Monolith** architecture based on **Clean Architecture** principles.
 
 ```text
-📦 content_web (Root)
-├── 🎯 core-domain/                     # Domain & Business Layer (Core Logic)
-│   ├── common/                          # Cross-domain error handling & common models
+📦 Content AI Backend
+├── 🎯 core-domain/                      # Domain & Business Layer
+│   ├── common/                          
 │   │   └── error/                       # CustomException, ErrorCode definitions
-│   └── user/                            # User Bounded Context
-│       ├── domain/                      # Pure Domain Models (Java Records: User, UserRole, UserStatus)
+│   └── feature/                         # Bounded Context
+│       ├── domain/                      # Pure Domain Models
 │       └── service/                     # Application Services & Port Interfaces
-│           ├── UserService.java         # Domain logic & orchestration
-│           └── UserRepository.java      # Output Port (Repository Interface)
+│           ├── FeatureService.java         # Domain logic & orchestration
+│           └── FeatureRepository.java      # Output Port (Repository Interface)
 │
-├── 💾 db-core/                          # Persistence & Storage Layer (Adapters)
-│   ├── BaseEntity.java                  # MappedSuperclass with auditing timestamps
-│   └── user/                            # User Persistence Implementation
-│       ├── UserEntity.java              # JPA Entity & Domain mapper (toDomain)
-│       ├── UserJpaRepository.java       # Spring Data JPA Repository
-│       └── UserCoreRepository.java      # Adapter implementing UserRepository (Port)
+├── 💾 db-core/                          # Persistence & Storage Layer
+│   └── feature/                         # Persistence Implementation
+│       ├── FeatureEntity.java              # JPA Entity
+│       ├── FeatureJpaRepository.java       # Spring Data JPA Repository
+│       └── FeatureCoreRepository.java      # Adapter implementing UserRepository (Port)
 │
-└── 🌐 core-api/                         # Presentation Layer (HTTP & Infrastructure)
+└── 🌐 core-api/                         # Presentation Layer
     ├── AIContentApplication.java        # Spring Boot main entrypoint
     ├── config/                          # Infrastructure & Framework Configurations
-    │   ├── jwt/                         # JWT token provider, properties & payload
-    │   ├── security/                    # Spring Security & JwtAuthenticationFilter
-    │   └── web/                         # WebMvcConfigurer & CurrentUserArgumentResolver
     └── controller/                      # REST API Endpoints
-        ├── HealthController.java        # Health check endpoint
-        ├── user/                        # User REST Controllers
-        └── advice/                      # Global exception handling & standard API responses
 ```
 ## 🌐Architecture System
 ![architecture](image/architecture.png)
