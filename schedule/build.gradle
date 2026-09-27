@@ -1,6 +1,5 @@
 dependencies {
-    //spring
-    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation project(":core-domain")
 }
 tasks.named('bootJar') {
     enabled = true
