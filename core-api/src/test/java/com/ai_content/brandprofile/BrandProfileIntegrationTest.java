@@ -21,16 +21,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(properties = {
-        "spring.datasource.url=jdbc:postgresql://localhost:55433/brand_profile_test_v5",
-        "spring.datasource.username=brand_test",
-        "spring.datasource.password=brand_test_password",
-        "spring.datasource.driver-class-name=org.postgresql.Driver",
-        "spring.flyway.enabled=true",
-        "spring.jpa.hibernate.ddl-auto=validate",
-        "spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect"
+        "spring.datasource.url=jdbc:h2:mem:brand_profile_integration;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",
+        "spring.jpa.properties.hibernate.hbm2ddl.halt_on_error=true"
 })
+
 @AutoConfigureMockMvc
-@ActiveProfiles("brand-profile-integration")
+
+@ActiveProfiles("test")
 class BrandProfileIntegrationTest {
 
     @Autowired
@@ -51,6 +48,9 @@ class BrandProfileIntegrationTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private BrandProfileJpaRepository brandProfileRepository;
+
     @Test
     void registrationShouldCreateEmptyProfile() {
         String email = uniqueEmail();
@@ -62,21 +62,28 @@ class BrandProfileIntegrationTest {
                     "Password123!"
             );
 
-            Long count = jdbcTemplate.queryForObject("""
-                    SELECT COUNT(*)
-                    FROM brand_profiles bp
-                    JOIN users u ON u.id = bp.user_id
-                    WHERE u.email = ?
-                      AND bp.description IS NULL
-                      AND bp.tone_of_voice IS NULL
-                      AND bp.forbidden_words IS NULL
-                      AND bp.brand_colors = '[]'::jsonb
-                      AND bp.completeness_pct = 0
-                      AND bp.created_at IS NOT NULL
-                      AND bp.updated_at IS NOT NULL
-                    """, Long.class, email);
+            Long userId = jdbcTemplate.queryForObject(
+                "SELECT id FROM users WHERE email = ?",
+                Long.class,
+                email
+            );
 
-            assertEquals(Long.valueOf(1), count);
+            BrandProfileEntity profile = brandProfileRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new AssertionError(
+                        "Registration successfull, but profile not found"
+                ));
+
+            assertNotNull(profile.getId());
+            assertEquals(userId, profile.getUserId());
+            assertNull(profile.getDescription());
+            assertNull(profile.getToneOfVoice());
+            assertNull(profile.getForbiddenWords());
+            assertNotNull(profile.getBrandColors());
+            assertTrue(profile.getBrandColors().isEmpty());
+            assertEquals(0, profile.getCompletenessPct());
+            assertNotNull(profile.getCreatedAt());
+            assertNotNull(profile.getUpdatedAt());
         } finally {
             deleteTestUser(email);
         }
@@ -137,7 +144,7 @@ class BrandProfileIntegrationTest {
         jdbcTemplate.execute("""
                 ALTER TABLE brand_profiles
                 ADD CONSTRAINT test_reject_empty_profile
-                CHECK (completeness_pct <> 0) NOT VALID
+                CHECK (completeness_pct <> 0)
                 """);
 
         try {
