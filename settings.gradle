@@ -4,4 +4,6 @@ rootProject.name = 'content_web'
 include 'core-api'
 include 'core-domain'
 include 'db-core'
-
+include 'schedule'
+include 'external-ai'
+include 'queue-sqs'

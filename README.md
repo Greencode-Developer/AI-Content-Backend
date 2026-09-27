@@ -19,34 +19,74 @@ An backend service designed to automate content research, trend analysis, and co
 ## 📦 Package
 This project adopts a **Modular Monolith** architecture based on **Clean Architecture** principles.
 
+![clean-architecture](image/clean-architecture.png)
+
 ```text
-📦 content_web (Root)
-├── 🎯 core-domain/                     # Domain & Business Layer (Core Logic)
-│   ├── common/                          # Cross-domain error handling & common models
-│   │   └── error/                       # CustomException, ErrorCode definitions
-│   └── user/                            # User Bounded Context
-│       ├── domain/                      # Pure Domain Models (Java Records: User, UserRole, UserStatus)
-│       └── service/                     # Application Services & Port Interfaces
-│           ├── UserService.java         # Domain logic & orchestration
-│           └── UserRepository.java      # Output Port (Repository Interface)
+📦 Content AI Backend
+├── 🎯 core-domain/                         # Domain & Application Layer
+│   ├── common/
+│   │   └── error/
+│   │       ├── CustomException.java
+│   │       └── ErrorCode.java
+│   │
+│   └── feature/
+│       ├── domain/                         # Pure Domain Models
+│       │   ├── Feature.java
+│       │   └── ...
+│       │
+│       └── service/                        # Application Services & Ports
+│           ├── FeatureService.java         # Business logic & orchestration
+│           ├── FeatureRepository.java     # Output Port
+│           └── AiGenerator.java            # Output Port
 │
-├── 💾 db-core/                          # Persistence & Storage Layer (Adapters)
-│   ├── BaseEntity.java                  # MappedSuperclass with auditing timestamps
-│   └── user/                            # User Persistence Implementation
-│       ├── UserEntity.java              # JPA Entity & Domain mapper (toDomain)
-│       ├── UserJpaRepository.java       # Spring Data JPA Repository
-│       └── UserCoreRepository.java      # Adapter implementing UserRepository (Port)
+├── 💾 db-core/                              # Database Adapter
+│   └── feature/
+│       ├── FeatureEntity.java
+│       ├── FeatureJpaRepository.java
+│       └── FeatureCoreRepository.java      # Adapter
 │
-└── 🌐 core-api/                         # Presentation Layer (HTTP & Infrastructure)
-    ├── AIContentApplication.java        # Spring Boot main entrypoint
-    ├── config/                          # Infrastructure & Framework Configurations
-    │   ├── jwt/                         # JWT token provider, properties & payload
-    │   ├── security/                    # Spring Security & JwtAuthenticationFilter
-    │   └── web/                         # WebMvcConfigurer & CurrentUserArgumentResolver
-    └── controller/                      # REST API Endpoints
-        ├── HealthController.java        # Health check endpoint
-        ├── user/                        # User REST Controllers
-        └── advice/                      # Global exception handling & standard API responses
+├── 🤖 external-ai/                          # External AI Adapter
+│   ├── config/
+│   │   └── BedrockConfig.java
+│   │
+│   ├── bedrock/
+│   │   ├── BedrockAiGenerator.java         # Adapter implements AiGenerator
+│   │   ├── BedrockClient.java
+│   │   └── ...
+│   │
+│   └── prompt/
+│       ├── IdeaPrompt.java
+│       └── ContentPrompt.java
+│
+├── 📨 queue-sqs/                            # AWS SQS Adapter
+│   ├── config/
+│   │   └── SqsConfig.java
+│   │
+│   ├── producer/
+│   │   └── SqsJobProducer.java
+│   │
+│   └── consumer/
+│       └── SqsJobConsumer.java
+│
+├── ⏰ schedule/                             # Scheduled Jobs
+│   ├── config/
+│   └── job/
+│       ├── RetryJob.java
+│       └── CleanupJob.java
+│
+└── 🌐 core-api/                             # REST API / Composition Root
+    ├── AIContentApplication.java
+    │
+    ├── config/
+    │   ├── SecurityConfig.java
+    │   ├── JacksonConfig.java
+    │   └── ...
+    │
+    └── controller/
+        ├── content/
+        ├── idea/
+        ├── brandprofile/
+        └── ...
 ```
 ## 🌐Architecture System
 ![architecture](image/architecture.png)
