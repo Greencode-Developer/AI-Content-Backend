@@ -1,0 +1,11 @@
+dependencies {
+    //spring
+    implementation 'org.springframework.boot:spring-boot-starter'
+}
+tasks.named('bootJar') {
+    enabled = true
+}
+
+tasks.named('jar') {
+    enabled = false
+}
