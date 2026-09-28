@@ -94,7 +94,7 @@ public class BrandProfileService {
         if (colors == null) {
             throw new CustomException(
                 ErrorCode.BRAND_PROFILE_VALIDATION_ERROR,
-                "barnd_colors must not be null, use [] to clear colors"
+                "brand_colors must not be null, use [] to clear colors"
             );
         }
 
@@ -104,7 +104,7 @@ public class BrandProfileService {
             if (color == null) {
                 throw new CustomException(
                     ErrorCode.BRAND_PROFILE_VALIDATION_ERROR,
-                    "brand_colors must not be null, use [] to clear colors"
+                    "Each brand color must not be null"
                 );
             }
 
@@ -113,7 +113,7 @@ public class BrandProfileService {
             if (!HEX_COLOR.matcher(value).matches()) {
                 throw new CustomException(
                     ErrorCode.BRAND_PROFILE_VALIDATION_ERROR,
-                    "Each brand color muse use the #RRGGBB format"
+                    "Each brand color must use the #RRGGBB format"
                 );
             }
 

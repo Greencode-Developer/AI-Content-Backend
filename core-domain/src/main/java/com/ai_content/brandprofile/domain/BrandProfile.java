@@ -2,7 +2,6 @@ package com.ai_content.brandprofile.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 public record BrandProfile(
         Long id,
