@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface BrandProfileJpaRepository
-        extends JpaRepository<BrandProfileEntity, UUID> {
+        extends JpaRepository<BrandProfileEntity, Long> {
 
     Optional<BrandProfileEntity> findByUserId(Long userId);
 }

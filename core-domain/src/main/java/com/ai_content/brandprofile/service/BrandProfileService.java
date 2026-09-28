@@ -24,6 +24,7 @@ public class BrandProfileService {
             Pattern.compile("^#[0-9A-Fa-f]{6}$");
 
     private final BrandProfileRepository repository;
+    private final ProfileCompletenessCalculator completenessCalculator;
 
     public BrandProfile getByUserId(Long userId) {
         return repository.findByUserId(userId)
@@ -43,7 +44,10 @@ public class BrandProfileService {
             UpdateBrandProfileCommand command
     ) {
         if (command == null) {
-            throw validationError("Dữ liệu cập nhật không được null");
+            throw new CustomException(
+                ErrorCode.BRAND_PROFILE_VALIDATION_ERROR,
+                "Update command must not be null"
+            );
         }
 
         BrandProfile current = getByUserId(userId);
@@ -53,7 +57,7 @@ public class BrandProfileService {
         String forbiddenWords = normalizeText(command.forbiddenWords());
         List<String> colors = normalizeColors(command.brandColors());
 
-        int completenessPct = ProfileCompletenessCalculator.calculate(
+        int completenessPct = completenessCalculator.calculate(
                 description,
                 toneOfVoice,
                 colors
@@ -88,8 +92,9 @@ public class BrandProfileService {
 
     private static List<String> normalizeColors(List<String> colors) {
         if (colors == null) {
-            throw validationError(
-                    "brand_colors không được null; dùng [] để xóa màu"
+            throw new CustomException(
+                ErrorCode.BRAND_PROFILE_VALIDATION_ERROR,
+                "barnd_colors must not be null, use [] to clear colors"
             );
         }
 
@@ -97,16 +102,18 @@ public class BrandProfileService {
 
         for (String color : colors) {
             if (color == null) {
-                throw validationError(
-                        "Mỗi phần tử brand_colors phải là mã màu #RRGGBB"
+                throw new CustomException(
+                    ErrorCode.BRAND_PROFILE_VALIDATION_ERROR,
+                    "brand_colors must not be null, use [] to clear colors"
                 );
             }
 
             String value = color.strip();
 
             if (!HEX_COLOR.matcher(value).matches()) {
-                throw validationError(
-                        "Mỗi phần tử brand_colors phải là mã màu #RRGGBB"
+                throw new CustomException(
+                    ErrorCode.BRAND_PROFILE_VALIDATION_ERROR,
+                    "Each brand color muse use the #RRGGBB format"
                 );
             }
 
@@ -114,12 +121,5 @@ public class BrandProfileService {
         }
 
         return List.copyOf(normalized);
-    }
-
-    private static CustomException validationError(String message) {
-        return new CustomException(
-                ErrorCode.BRAND_PROFILE_VALIDATION_ERROR,
-                message
-        );
     }
 }

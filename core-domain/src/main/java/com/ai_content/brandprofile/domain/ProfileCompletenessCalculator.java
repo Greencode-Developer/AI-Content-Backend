@@ -3,15 +3,15 @@ package com.ai_content.brandprofile.domain;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public final class ProfileCompletenessCalculator {
 
     private static final Pattern HEX_COLOR =
             Pattern.compile("^#[0-9a-fA-F]{6}$");
 
-    private ProfileCompletenessCalculator() {
-    }
-
-    public static int calculate(
+    public int calculate(
             String description,
             String toneOfVoice,
             List<String> brandColors

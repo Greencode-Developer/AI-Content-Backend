@@ -4,19 +4,16 @@ import com.ai_content.brandprofile.domain.BrandProfile;
 import com.ai_content.brandprofile.service.BrandProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class BrandProfileCoreRepository implements BrandProfileRepository {
 
     private final BrandProfileJpaRepository jpaRepository;
 
     @Override
-    @Transactional
     public BrandProfile createEmpty(Long userId) {
         BrandProfileEntity entity =
                 BrandProfileEntity.createEmpty(userId);
@@ -34,7 +31,6 @@ public class BrandProfileCoreRepository implements BrandProfileRepository {
     }
 
     @Override
-    @Transactional
     public Optional<BrandProfile> update(BrandProfile profile) {
         return jpaRepository.findByUserId(profile.userId())
                 .filter(entity -> entity.getId().equals(profile.id()))

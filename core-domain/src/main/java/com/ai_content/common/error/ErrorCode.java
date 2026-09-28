@@ -33,12 +33,12 @@ public enum ErrorCode {
 
     BRAND_PROFILE_NOT_FOUND(
         "BRAND_PROFILE_NOT_FOUND",
-        "Không tìm thấy hồ sơ thương hiệu"
+        "Brand profile not found"
     ),
 
     BRAND_PROFILE_VALIDATION_ERROR(
         "VALIDATION_ERROR",
-        "Dữ liệu hồ sơ thương hiệu không hợp lệ"
+        "Invalid brand profile data"
     );
 
     private final String code;

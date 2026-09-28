@@ -6,8 +6,6 @@ import com.ai_content.controller.brandprofile.response.BrandProfileResponse;
 import com.ai_content.user.domain.User;
 import com.ai_content.controller.brandprofile.request.UpdateBrandProfileRequest;
 
-import io.swagger.v3.oas.annotations.Parameter;
-
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +23,7 @@ public class BrandProfileController {
 
     @GetMapping
     public BrandProfileResponse getProfile(
-            @Parameter(hidden = true) @CurrentUser User user
+            @CurrentUser User user
     ) {
         return BrandProfileResponse.from(
                 brandProfileService.getByUserId(user.id())
@@ -34,7 +32,7 @@ public class BrandProfileController {
 
     @PutMapping
     public BrandProfileResponse updateProfile(
-        @Parameter(hidden = true) @CurrentUser User user,
+        @CurrentUser User user,
         @RequestBody UpdateBrandProfileRequest request
     ) {
         return BrandProfileResponse.from(

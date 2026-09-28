@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record BrandProfileResponse(
-        UUID id,
+        Long id,
         String description,
         String toneOfVoice,
         String forbiddenWords,

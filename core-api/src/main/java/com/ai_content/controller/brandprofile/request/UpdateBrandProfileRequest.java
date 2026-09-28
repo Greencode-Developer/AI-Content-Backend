@@ -19,7 +19,7 @@ public record UpdateBrandProfileRequest(
 ) {
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     public UpdateBrandProfileRequest {
-        
+
     }
 
     private static final Set<String> FIELDS = Set.of(
@@ -32,12 +32,12 @@ public record UpdateBrandProfileRequest(
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static UpdateBrandProfileRequest fromJson(JsonNode body) {
         if (body == null || !body.isObject()) {
-            throw invalid("Request phải là một JSON object");
+            throw invalid("Request body must be JSON object");
         }
 
         for (String field : FIELDS) {
             if (!body.has(field)) {
-                throw invalid("Thiếu trường: " + field);
+                throw invalid("Missing required field: " + field);
             }
         }
 
@@ -46,21 +46,21 @@ public record UpdateBrandProfileRequest(
             String name = names.next();
 
             if (!FIELDS.contains(name)) {
-                throw invalid("Trường không được phép: " + name);
+                throw invalid("Field is not allowed: " + name);
             }
         }
 
         JsonNode colorsNode = body.get("brand_colors");
 
         if (!colorsNode.isArray()) {
-            throw invalid("brand_colors phải là mảng; dùng [] để xóa màu");
+            throw invalid("brand_colors must be an array; use [] to clear colors");
         }
 
         List<String> colors = new ArrayList<>();
 
         for (JsonNode color : colorsNode) {
             if (!color.isTextual()) {
-                throw invalid("Mỗi phần tử brand_colors phải là chuỗi");
+                throw invalid("Each brand color must be a string");
             }
 
             colors.add(color.textValue());
@@ -89,7 +89,7 @@ public record UpdateBrandProfileRequest(
         }
 
         if (!value.isTextual()) {
-            throw invalid(field + " phải là chuỗi hoặc null");
+            throw invalid(field + " must be a string or null");
         }
 
         return value.textValue();
