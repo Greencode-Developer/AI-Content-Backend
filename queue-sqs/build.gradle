@@ -1,4 +1,6 @@
 dependencies {
+    implementation project(":core-domain")
+
     implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.4.0")
     implementation "io.awspring.cloud:spring-cloud-aws-starter-sqs"
 }
