@@ -1,15 +1,14 @@
-package com.ai_content.brandprofile.domain;
+package com.ai_content.brandprofile.service;
+
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.springframework.stereotype.Component;
-
 @Component
-public final class ProfileCompletenessCalculator {
-
+public class ProfileCompletenessCalculator {
     private static final Pattern HEX_COLOR =
-            Pattern.compile("^#[0-9a-fA-F]{6}$");
+            Pattern.compile("^#[0-9A-Fa-f]{6}$");
 
     public int calculate(
             String description,
@@ -27,8 +26,7 @@ public final class ProfileCompletenessCalculator {
         }
 
         if (brandColors != null
-                && brandColors.stream().anyMatch(
-                        ProfileCompletenessCalculator::isValidColor)) {
+                && brandColors.stream().anyMatch(ProfileCompletenessCalculator::isValidColor)) {
             score += 20;
         }
 
@@ -42,4 +40,5 @@ public final class ProfileCompletenessCalculator {
     private static boolean isValidColor(String value) {
         return value != null && HEX_COLOR.matcher(value).matches();
     }
+
 }
