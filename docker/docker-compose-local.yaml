@@ -15,6 +15,20 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - content-network
+
+  content-floci:
+    image: floci/floci:latest
+    container_name: content-floci
+    restart: unless-stopped
+    ports:
+      - "4566:4566"
+    environment:
+      FLOCI_DEFAULT_REGION: ap-southeast-1
+    volumes:
+      - floci_data:/app/data
+    networks:
+      - content-network
+
 #  TODO: Redis, etc.
 
 networks:
@@ -23,3 +37,4 @@ networks:
 
 volumes:
   postgres_data:
+  floci_data:
