@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BrandProfileService {
 
     private final BrandProfileRepository repository;
+
     private final ProfileCompletenessCalculator profileCompletenessCalculator;
 
     public BrandProfile getByUserId(Long userId) {

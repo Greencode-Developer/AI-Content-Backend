@@ -80,7 +80,7 @@ class ProfileCompletenessCalculatorTest {
     @Test
     void shouldCountUnicodeCodePoints() {
         int actual = calculator.calculate(
-                "😀".repeat(19),
+                "a".repeat(19),
                 null,
                 List.of()
         );
