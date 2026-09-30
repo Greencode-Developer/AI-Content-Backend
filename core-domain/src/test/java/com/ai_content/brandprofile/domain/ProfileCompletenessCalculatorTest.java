@@ -1,80 +1,177 @@
 package com.ai_content.brandprofile.domain;
 
+import com.ai_content.brandprofile.service.ProfileCompletenessCalculator;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProfileCompletenessCalculatorTest {
-    private final ProfileCompletenessCalculator calculator = new ProfileCompletenessCalculator();
+
+    private final ProfileCompletenessCalculator calculator =
+            new ProfileCompletenessCalculator();
 
     @ParameterizedTest
-    @MethodSource("profileCases")
-    void shouldCalculateCompleteness(
-            String description,
-            String toneOfVoice,
-            List<String> colors,
-            int expected
-    ) {
+    @CsvSource({
+            "0, 0",
+            "1, 10",
+            "19, 10",
+            "20, 20",
+            "49, 20",
+            "50, 30",
+            "99, 30",
+            "100, 40",
+            "150, 40"
+    })
+    void shouldCalculateDescriptionScore(int length, int expected) {
         int actual = calculator.calculate(
-                description, toneOfVoice, colors
+                "a".repeat(length),
+                null,
+                List.of()
         );
 
         assertEquals(expected, actual);
     }
 
-    static Stream<Arguments> profileCases() {
-        return Stream.of(
-                Arguments.of(null, null, List.of(), 0),
-                Arguments.of(" \t", "\n", List.of(), 0),
-                Arguments.of(null, null, List.of("#FFFFFF"), 20),
-                Arguments.of("Coffe Brand", null, List.of(), 40),
-                Arguments.of(null, "Warm", List.of(), 40),
-                Arguments.of(
-                        "Coffe Brand", null,
-                        List.of("#FFFFFF"), 60
-                ),
-                Arguments.of(
-                        null, "Warm",
-                        List.of("#FFFFFF"), 60
-                ),
-                Arguments.of(
-                        "Coffe Brand", "Warm",
-                        List.of(), 80
-                ),
-                Arguments.of(
-                        "Coffe Brand", "Warm",
-                        List.of("#aabbcc", "#FFFFFF"), 100
-                ),
-                Arguments.of(null, null, null, 0),
-                Arguments.of(null, null, List.of("red", "#XYZ123"), 0)
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0",
+            "1, 10",
+            "4, 10",
+            "5, 20",
+            "9, 20",
+            "10, 30",
+            "19, 30",
+            "20, 40",
+            "50, 40"
+    })
+    void shouldCalculateToneOfVoiceScore(int length, int expected) {
+        int actual = calculator.calculate(
+                null,
+                "a".repeat(length),
+                List.of()
+        );
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldReturnZeroForNullAndBlankValues() {
+        assertEquals(0, calculator.calculate(null, null, null));
+        assertEquals(0, calculator.calculate(" \n ", " \t ", List.of()));
+    }
+
+    @Test
+    void shouldIgnoreLeadingAndTrailingWhitespace() {
+        int actual = calculator.calculate(
+                "  " + "a".repeat(19) + "  ",
+                "\n" + "b".repeat(4) + "\t",
+                List.of()
+        );
+
+        assertEquals(20, actual);
+    }
+
+    @Test
+    void shouldCountUnicodeCodePoints() {
+        int actual = calculator.calculate(
+                "😀".repeat(19),
+                null,
+                List.of()
+        );
+
+        assertEquals(10, actual);
+    }
+
+    @Test
+    void shouldAwardTwentyPointsForValidColors() {
+        assertEquals(
+                20,
+                calculator.calculate(null, null, List.of("#aabbcc"))
+        );
+
+        assertEquals(
+                20,
+                calculator.calculate(
+                        null,
+                        null,
+                        List.of("#AABBCC", "#FFFFFF")
+                )
         );
     }
 
     @Test
-    void shouldRecalculateWhenInformationIsCleared() {
-        assertEquals(100, calculator.calculate(
-                "Coffe Brand", "Warm", List.of("#FFFFFF")
-        ));
+    void shouldNotAwardPointsWithoutValidColors() {
+        int actual = calculator.calculate(
+                null,
+                null,
+                Arrays.asList(null, "", "red", "#XYZXYZ")
+        );
 
-        // Xóa mô tả: còn giọng điệu và màu.
-        assertEquals(60, calculator.calculate(
-                null, "Warm", List.of("#FFFFFF")
-        ));
+        assertEquals(0, actual);
+    }
 
-        // Xóa thêm màu: chỉ còn giọng điệu.
-        assertEquals(40, calculator.calculate(
-                null, "Warm", List.of()
-        ));
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0, false, 0",
+            "20, 5, false, 40",
+            "50, 5, false, 50",
+            "50, 10, false, 60",
+            "50, 10, true, 80",
+            "100, 20, true, 100"
+    })
+    void shouldSumAllScores(
+            int descriptionLength,
+            int toneLength,
+            boolean hasColor,
+            int expected
+    ) {
+        int actual = calculator.calculate(
+                "a".repeat(descriptionLength),
+                "b".repeat(toneLength),
+                hasColor ? List.of("#AABBCC") : List.of()
+        );
 
-        // Xóa toàn bộ thông tin tính điểm.
-        assertEquals(0, calculator.calculate(
-                null, null, List.of()
-        ));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldReduceScoreWhenInformationIsCleared() {
+        assertEquals(
+                100,
+                calculator.calculate(
+                        "a".repeat(100),
+                        "b".repeat(20),
+                        List.of("#AABBCC")
+                )
+        );
+
+        assertEquals(
+                60,
+                calculator.calculate(
+                        null,
+                        "b".repeat(20),
+                        List.of("#AABBCC")
+                )
+        );
+
+        assertEquals(0, calculator.calculate(null, null, List.of()));
+    }
+
+    // Check color for whitespace is not awarded points
+    @Test
+    void shouldNotAwardPointsForColorWithSurroundingWhitespace() {
+        int actual = calculator.calculate(
+                null,
+                null,
+                List.of(" #AABBCC ")
+        );
+        
+        assertEquals(0, actual);
     }
 }

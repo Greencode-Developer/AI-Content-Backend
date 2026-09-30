@@ -6,6 +6,8 @@ import com.ai_content.controller.brandprofile.response.BrandProfileResponse;
 import com.ai_content.user.domain.User;
 import com.ai_content.controller.brandprofile.request.UpdateBrandProfileRequest;
 
+import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +35,7 @@ public class BrandProfileController {
     @PutMapping
     public BrandProfileResponse updateProfile(
         @CurrentUser User user,
-        @RequestBody UpdateBrandProfileRequest request
+        @Valid @RequestBody UpdateBrandProfileRequest request
     ) {
         return BrandProfileResponse.from(
             brandProfileService.update(user.id(), request.toCommand())

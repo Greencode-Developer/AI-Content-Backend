@@ -1,13 +1,10 @@
 package com.ai_content.controller.brandprofile.response;
 
 import com.ai_content.brandprofile.domain.BrandProfile;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record BrandProfileResponse(
         Long id,
         String description,
