@@ -1,8 +1,8 @@
 spring:
   config:
     import:
-      - datasource.yaml
-      - ai.yaml
+      - datasource.yml
+      - sqs.yml
 jwt:
   secret: ${JWT_SECRET:your-256-bit-secret-key-here-must-be-at-least-32-characters}
   access-token-validity: 3600000
