@@ -18,11 +18,6 @@ public enum PersonaStatus {
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PersonaEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
@@ -88,7 +83,6 @@ public class PersonaEntity extends BaseEntity {
                 .build();
     }
 
-    /*
     public static Persona toDomain(PersonaEntity entity) {
         return new Persona(
                 entity.getId(),
@@ -102,5 +96,4 @@ public class PersonaEntity extends BaseEntity {
                 entity.getStatus()
         );
     }
-    */
 }
