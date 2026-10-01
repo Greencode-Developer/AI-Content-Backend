@@ -1,16 +1,14 @@
 package com.ai_content.persona;
 
 import com.ai_content.BaseEntity;
+import com.ai_content.persona.domain.Persona;
+import com.ai_content.persona.domain.PersonaStatus;
+import com.ai_content.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-public enum PersonaStatus {
-    ACTIVE,
-    DELETED
-}
 
 @Entity
 @Table(name = "personas")
