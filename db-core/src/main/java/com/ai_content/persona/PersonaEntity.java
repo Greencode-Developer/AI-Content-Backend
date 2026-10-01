@@ -3,7 +3,6 @@ package com.ai_content.persona;
 import com.ai_content.BaseEntity;
 import com.ai_content.persona.domain.Persona;
 import com.ai_content.persona.domain.PersonaStatus;
-import com.ai_content.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,6 +21,12 @@ public class PersonaEntity extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "age_range", nullable = false)
+    private String ageRange;
+
+    @Column(name = "occupation", nullable = false)
+    private String occupation;
+
     @Column(name = "pain_points", nullable = false, columnDefinition = "TEXT")
     private String painPoints;
 
@@ -30,10 +35,6 @@ public class PersonaEntity extends BaseEntity {
 
     @Column(name = "typical_phrases", nullable = false, columnDefinition = "TEXT")
     private String typicalPhrases;
-   
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private PersonaStatus status; // (active, deleted)
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -82,7 +83,7 @@ public class PersonaEntity extends BaseEntity {
     }
 
     public static Persona toDomain(PersonaEntity entity) {
-        return new Persona(
+        return Persona.of(
                 entity.getId(),
                 entity.getUserId(),
                 entity.getName(),

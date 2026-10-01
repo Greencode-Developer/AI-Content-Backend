@@ -1,13 +1,9 @@
 package com.ai_content.persona;
 
 import com.ai_content.persona.domain.Persona;
-import com.ai_content.persona.domain.PersonaStatus;
 import com.ai_content.persona.service.PersonaRepository;
-import com.ai_content.user.domain.Persona;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.math.BigDecimal;
 
 @Repository
 @RequiredArgsConstructor

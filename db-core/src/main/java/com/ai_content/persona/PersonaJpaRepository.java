@@ -2,11 +2,8 @@ package com.ai_content.persona;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PersonaJpaRepository extends JpaRepository<PersonaEntity,Long> {
-    List<PersonaEntity> findAllByPersonaId(Long personaId);
+import java.util.List;
 
-    List<PersonaEntity> findAllByIdInAndUserId(
-            List<Long> personaIds,
-            Long userId
-    );
+public interface PersonaJpaRepository extends JpaRepository<PersonaEntity, Long> {
+    List<PersonaEntity> findAllByUserId(Long userId);
 }
