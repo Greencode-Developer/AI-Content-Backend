@@ -6,8 +6,10 @@ import com.ai_content.controller.pillar.request.CreatePillarRequest;
 import com.ai_content.pillar.domain.Pillar;
 import com.ai_content.pillar.service.PillarService;
 import com.ai_content.user.domain.User;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +20,7 @@ public class PillarController {
     private final PillarService pillarService;
 
     @PostMapping
-    public Pillar createPillar(@CurrentUser User user, CreatePillarRequest request){
+    public Pillar createPillar(@CurrentUser User user, @RequestBody @Valid CreatePillarRequest request) {
         CreatePillarRequest createPillarRequest = CreatePillarRequest.of(
                 request.name(),
                 request.purpose(),
