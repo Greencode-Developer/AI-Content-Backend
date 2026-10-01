@@ -82,6 +82,20 @@ public class PersonaEntity extends BaseEntity {
                 .build();
     }
 
+    public void update(String name, String ageRange, String occupation, String painPoints, String desires, String typicalPhrases) {
+        this.name = name;
+        this.ageRange = ageRange;
+        this.occupation = occupation;
+        this.painPoints = painPoints;
+        this.desires = desires;
+        this.typicalPhrases = typicalPhrases;
+    }
+
+    public void delete() {
+        this.status = PersonaStatus.DELETED;
+        super.softDelete();
+    }
+
     public static Persona toDomain(PersonaEntity entity) {
         return Persona.of(
                 entity.getId(),
