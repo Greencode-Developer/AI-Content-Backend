@@ -1,4 +1,4 @@
-package com.ai_content.controller.idea;
+package com.ai_content.controller.idea.reponse;
 
 public record JobResponse(
         Long jobId
