@@ -1,0 +1,14 @@
+dependencies {
+    //spring
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //sqs
+    implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.4.0")
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-sqs'
+}
+tasks.named('bootJar') {
+    enabled = true
+}
+
+tasks.named('jar') {
+    enabled = false
+}
