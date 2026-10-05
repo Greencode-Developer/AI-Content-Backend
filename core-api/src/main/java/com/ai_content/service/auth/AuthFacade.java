@@ -28,6 +28,7 @@ public class AuthFacade {
 
     @Transactional
     public LoginResult login(String email, String password) {
+        // TODO: shouldn't return user not found
         User user = userService.getByEmail(email);
 
         if (!passwordEncoder.matches(password, user.password())) {
