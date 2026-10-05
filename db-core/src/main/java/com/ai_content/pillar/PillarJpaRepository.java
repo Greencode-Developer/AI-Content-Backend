@@ -4,11 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface PillarJpaRepository extends JpaRepository<PillarEntity, Long> {
+public interface PillarJpaRepository extends JpaRepository<PillarEntity,Long> {
     List<PillarEntity> findAllByUserId(Long userId);
 
     List<PillarEntity> findAllByIdInAndUserId(
             List<Long> pillarIds,
             Long userId
-    );
-}
+    );}

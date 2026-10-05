@@ -8,11 +8,11 @@ public record CreatePillarCommand(
     Long userId,
     String name,
     String purpose,
-    boolean lockNoReduce){
+    Boolean lockNoReduce){
     public static CreatePillarCommand of(Long userId,
                                          String name,
                                          String purpose,
-                                         boolean lockNoReduce){
+                                         Boolean lockNoReduce){
         return new CreatePillarCommand(userId, name, purpose, lockNoReduce);
     }
 }

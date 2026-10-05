@@ -14,16 +14,8 @@ public record CreatePillarRequest(
         @Size(max = 1000, message = "Purpose must not exceed 1000 characters")
         String purpose,
 
-        boolean lockNoReduce
+        Boolean lockNoReduce
 ) {
-    public static CreatePillarRequest of(
-            String name,
-            String purpose,
-            boolean lockNoReduce
-    ){
-        return new CreatePillarRequest(name, purpose, lockNoReduce);
-    }
-
     public CreatePillarCommand toCommand(Long userId){
         return CreatePillarCommand.of(userId,name,purpose,lockNoReduce);
     }
