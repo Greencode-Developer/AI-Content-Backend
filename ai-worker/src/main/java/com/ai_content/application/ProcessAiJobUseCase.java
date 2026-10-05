@@ -11,6 +11,6 @@ public class ProcessAiJobUseCase {
     private final PythonAiClient pythonAiClient;
 
     public void execute(String jobId) {
-        pythonAiClient.generate(jobId);
+//        pythonAiClient.generate(jobId);
     }
 }
