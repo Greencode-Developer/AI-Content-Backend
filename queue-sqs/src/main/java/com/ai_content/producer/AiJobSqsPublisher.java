@@ -1,7 +1,7 @@
 package com.ai_content.producer;
 
-import com.ai_content.sqs.AiJobCommand;
-import com.ai_content.sqs.AiJobPublisher;
+import com.ai_content.job.command.AiJobCommand;
+import com.ai_content.job.sqs.AiJobPublisher;
 import com.ai_content.message.AiJobMessage;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import lombok.RequiredArgsConstructor;
