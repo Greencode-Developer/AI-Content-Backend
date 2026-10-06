@@ -23,6 +23,10 @@ public enum ErrorCode {
     USER_INVALID_PASSWORD("AUTH-006", "USER_INVALID_PASSWORD"),
     EMAIL_ALREADY_EXISTS("AUTH-007","EMAIL_ALREADY_EXISTS"),
 
+    // Persona
+    PERSONA_NOT_FOUND("PERSONA-001", "Persona not found"),
+    PERSONA_FORBIDDEN("PERSONA-002", "You do not have permission to access this persona"),
+
     // Followed Channel
     FOLLOWED_CHANNEL_NOT_FOUND("CHANNEL-001", "Followed channel not found"),
     FOLLOWED_CHANNEL_DUPLICATE_URL("CHANNEL-002", "This channel URL is already being followed"),
