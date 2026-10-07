@@ -1,17 +1,23 @@
 package com.ai_content.trend_signal.domain;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public record TrendSignal(
         Long id,
         Long userId,
-        String topic,
-        String summary,
-        Integer sourceCount,
-        BigDecimal growthRate,
-        Integer trendScore,
-        LocalDateTime firstDetectedAt,
-        LocalDateTime lastDetectedAt
+        Long followedChannelId,
+        String postId,
+        String title,
+        String url,
+        LocalDateTime publishedAt,
+        Integer likes,
+        Integer comments,
+        Integer shares,
+        PostFormat postFormat,
+        Map<String, Object> storyFormula,
+        boolean isUsed,
+        LocalDateTime createdAt,
+        TrendSignalStatus status
 ) {
 }
