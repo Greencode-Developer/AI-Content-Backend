@@ -1,14 +1,13 @@
 package com.ai_content.trend_signal;
 
 import com.ai_content.BaseEntity;
-import com.ai_content.trend_signal.converter.PostFormatConverter;
-import com.ai_content.trend_signal.converter.TrendSignalStatusConverter;
 import com.ai_content.trend_signal.domain.PostFormat;
 import com.ai_content.trend_signal.domain.TrendSignal;
 import com.ai_content.trend_signal.domain.TrendSignalStatus;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
@@ -65,7 +64,7 @@ public class TrendSignalEntity extends BaseEntity {
     @Column
     private Integer shares;
 
-    @Convert(converter = PostFormatConverter.class)
+    @Enumerated(EnumType.STRING)
     @Column(name = "post_format", nullable = false, length = 20)
     private PostFormat postFormat;
 
@@ -76,7 +75,7 @@ public class TrendSignalEntity extends BaseEntity {
     @Column(name = "is_used", nullable = false)
     private boolean isUsed;
 
-    @Convert(converter = TrendSignalStatusConverter.class)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private TrendSignalStatus status;
 

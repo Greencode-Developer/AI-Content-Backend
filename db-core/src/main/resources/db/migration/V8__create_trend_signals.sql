@@ -15,7 +15,7 @@ CREATE TABLE trend_signals (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP,
-    status VARCHAR(20) NOT NULL DEFAULT 'active',
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
 
     CONSTRAINT fk_trend_signals_user
         FOREIGN KEY (user_id)
@@ -30,9 +30,9 @@ CREATE TABLE trend_signals (
 
     CONSTRAINT chk_trend_signals_post_format
         CHECK (
-            post_format IN ('text', 'image_text', 'video_script')
+            post_format IN ('TEXT', 'IMAGE_TEXT', 'VIDEO_SCRIPT')
         ),
 
     CONSTRAINT chk_trend_signals_status
-        CHECK (status IN ('active', 'deleted'))
+        CHECK (status IN ('ACTIVE', 'DELETED'))
 );
