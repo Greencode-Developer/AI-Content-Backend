@@ -24,7 +24,6 @@ public record Job(
         );
     }
 
-
     public boolean isPending() {
         return this.status == JobStatus.PENDING;
     }
@@ -39,5 +38,9 @@ public record Job(
 
     public boolean isFailed() {
         return this.status == JobStatus.FAILED;
+    }
+
+    public boolean isOwner(Long userId) {
+        return this.userId.equals(userId);
     }
 }

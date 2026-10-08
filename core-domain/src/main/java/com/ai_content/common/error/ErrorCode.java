@@ -43,8 +43,17 @@ public enum ErrorCode {
     BRAND_PROFILE_VALIDATION_ERROR(
         "VALIDATION_ERROR",
         "Invalid brand profile data"
-    );
+    ),
 
+    AI_JOB_NOT_FOUND(
+            "NOT_FOUND",
+        "AI job not found"
+    ),
+
+    AI_JOB_ACCESS_DENIED(
+            "FORBIDDEN",
+        "You do not have permission to access this AI job"
+    );
     private final String code;
 
     private final String message;

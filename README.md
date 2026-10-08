@@ -45,34 +45,20 @@ This project adopts a **Modular Monolith** architecture based on **Clean Archite
 │       ├── FeatureJpaRepository.java
 │       └── FeatureCoreRepository.java      # Adapter
 │
-├── 🤖 external-ai/                          # External AI Adapter
-│   ├── config/
-│   │   └── BedrockConfig.java
-│   │
-│   ├── bedrock/
-│   │   ├── BedrockAiGenerator.java         # Adapter implements AiGenerator
-│   │   ├── BedrockClient.java
-│   │   └── ...
-│   │
-│   └── prompt/
-│       ├── IdeaPrompt.java
-│       └── ContentPrompt.java
 │
 ├── 📨 queue-sqs/                            # AWS SQS Adapter
-│   ├── config/
-│   │   └── SqsConfig.java
-│   │
-│   ├── producer/
-│   │   └── SqsJobProducer.java
-│   │
-│   └── consumer/
-│       └── SqsJobConsumer.java
+│   └── producer/
+│       └── SqsJobProducer.java
 │
 ├── ⏰ schedule/                             # Scheduled Jobs
 │   ├── config/
 │   └── job/
 │       ├── RetryJob.java
 │       └── CleanupJob.java
+│
+│
+├── 🤖 ai-worker/                            # AI Worker Application
+│   ├── AiWorkerApplication.java                         
 │
 └── 🌐 core-api/                             # REST API / Composition Root
     ├── AIContentApplication.java

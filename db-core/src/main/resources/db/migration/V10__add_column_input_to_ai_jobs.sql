@@ -1,0 +1,2 @@
+ALTER TABLE ai_jobs
+ADD COLUMN input JSONB;
