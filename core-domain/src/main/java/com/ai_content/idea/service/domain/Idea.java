@@ -23,6 +23,46 @@ public record Idea(
         LocalDateTime deletedAt
 ) {
 
+    public static Idea of(
+            Long id,
+            Long userId,
+            Platform platform,
+            String title,
+            String approachAngle,
+            String hookSentence,
+            String reason,
+            Long pillarId,
+            Long jobId,
+            Long personaId,
+            Long trendSignalId,
+            IdeaSource source,
+            boolean isExploration,
+            boolean isUsed,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            LocalDateTime deletedAt
+    ) {
+        return new Idea(
+                id,
+                userId,
+                platform,
+                title,
+                approachAngle,
+                hookSentence,
+                reason,
+                pillarId,
+                jobId,
+                personaId,
+                trendSignalId,
+                source,
+                isExploration,
+                isUsed,
+                createdAt,
+                updatedAt,
+                deletedAt
+        );
+    }
+
     public boolean isOwner(Long requestUserId) {
         return this.userId.equals(requestUserId);
     }

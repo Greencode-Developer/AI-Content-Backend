@@ -1,6 +1,6 @@
 package com.ai_content.idea;
 
-import com.ai_content.idea.service.IdeaService;
+import com.ai_content.idea.service.service.IdeaService;
 import com.ai_content.job.domain.Job;
 import com.ai_content.job.domain.JobType;
 import com.ai_content.job.service.AiJobRepository;
