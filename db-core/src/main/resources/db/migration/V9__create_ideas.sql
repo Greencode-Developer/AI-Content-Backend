@@ -11,6 +11,7 @@ CREATE TABLE ideas (
        reason TEXT,
 
        pillar_id BIGINT,
+       job_id BIGINT,
        persona_id BIGINT,
        trend_signal_id BIGINT,
 

@@ -27,6 +27,8 @@ public class IdeaEntity extends BaseEntity {
 
     private Long pillarId;
 
+    private Long jobId;
+
     private Long personaId;
 
     private Long trendSignalId;

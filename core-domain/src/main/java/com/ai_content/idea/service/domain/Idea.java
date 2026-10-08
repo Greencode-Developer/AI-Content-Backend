@@ -11,6 +11,8 @@ public record Idea(
         String hookSentence,
         String reason,
         Long pillarId,
+
+        Long jobId,
         Long personaId,
         Long trendSignalId,
         IdeaSource source,
