@@ -36,7 +36,6 @@ spring:
     activate:
       on-profile: local,dev
   flyway:
-    enabled: true
     baseline-on-migrate: true
     baseline-version: 0
   datasource:

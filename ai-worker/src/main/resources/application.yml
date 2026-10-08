@@ -1,4 +1,9 @@
 spring:
+  config:
+    import:
+      - datasource.yml
+  flyway:
+    enabled: false
   cloud:
     aws:
       region:

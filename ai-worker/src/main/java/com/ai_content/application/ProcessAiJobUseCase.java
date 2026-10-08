@@ -10,7 +10,7 @@ public class ProcessAiJobUseCase {
 
     private final PythonAiClient pythonAiClient;
 
-    public void execute(String jobId) {
+    public void execute(Long jobId) {
 //        pythonAiClient.generate(jobId);
     }
 }

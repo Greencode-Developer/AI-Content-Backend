@@ -1,4 +1,8 @@
 dependencies {
+    implementation project(":core-domain")
+    implementation project(":db-core")
+    implementation project(":queue-sqs")
+
     //spring
     implementation 'org.springframework.boot:spring-boot-starter-web'
     //sqs

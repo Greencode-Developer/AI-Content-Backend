@@ -33,6 +33,9 @@ public class JobEntity extends BaseEntity {
     @Column(name = "error_message", columnDefinition = "TEXT")
     private String errorMessage;
 
+    @Column(name = "input", columnDefinition = "jsonb")
+    private String input;
+
     @Builder(access = AccessLevel.PRIVATE)
     private JobEntity(
             Long userId,
