@@ -5,9 +5,15 @@ import com.ai_content.followed_channel.domain.FollowedChannelPlatform;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface FollowedChannelRepository {
+
+    List<FollowedChannel> findAllActiveForCollect();
+
+    void updateLastFetchedAt(Long id, LocalDateTime fetchedAt);
 
     FollowedChannel create(Long userId,
                            FollowedChannelPlatform platform,
