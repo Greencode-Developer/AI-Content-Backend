@@ -86,4 +86,10 @@ public class FollowedChannelCoreRepository implements FollowedChannelRepository 
     public void updateLastFetchedAt(Long id, LocalDateTime fetchedAt) {
         followedChannelJpaRepository.updateLastFetchedAt(id, fetchedAt);
     }
+
+    @Override
+    public Optional<FollowedChannel> findActiveById(Long id) {
+        return followedChannelJpaRepository.findActiveById(id)
+                .map(FollowedChannelEntity::toDomain);
+    }
 }

@@ -1,8 +1,8 @@
-package com.ai_content.client;
+package com.ai_content.infrastructure.crawler;
 
 import java.util.List;
 
-public record PostFetchResponse (
+public record PostFetchResponse(
         List<PostDto> posts
 ) {
     public PostFetchResponse {

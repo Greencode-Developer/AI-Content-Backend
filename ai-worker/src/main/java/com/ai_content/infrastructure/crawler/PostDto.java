@@ -1,4 +1,4 @@
-package com.ai_content.client;
+package com.ai_content.infrastructure.crawler;
 
 import java.time.LocalDateTime;
 
@@ -11,4 +11,5 @@ public record PostDto(
         Integer comments,
         Integer shares,
         String postFormat
-) {}
+) {
+}

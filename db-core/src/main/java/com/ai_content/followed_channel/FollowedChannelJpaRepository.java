@@ -13,6 +13,14 @@ import java.util.Optional;
 
 public interface FollowedChannelJpaRepository extends JpaRepository<FollowedChannelEntity, Long> {
 
+    Optional<FollowedChannelEntity> findByIdAndUserIdAndDeletedAtIsNull(Long id, Long userId);
+
+    Optional<FollowedChannelEntity> findByIdAndDeletedAtIsNull(Long id);
+
+    boolean existsByUserIdAndChannelUrlAndDeletedAtIsNull(Long userId, String channelUrl);
+
+    Page<FollowedChannelEntity> findAllByUserIdAndDeletedAtIsNull(Long userId, Pageable pageable);
+
     @Query("""
             SELECT e FROM FollowedChannelEntity e
             WHERE e.status = com.ai_content.followed_channel.domain.FollowedChannelStatus.ACTIVE
@@ -32,11 +40,12 @@ public interface FollowedChannelJpaRepository extends JpaRepository<FollowedChan
     void updateLastFetchedAt(@Param("id") Long id,
                              @Param("fetchedAt") LocalDateTime fetchedAt);
 
-    Optional<FollowedChannelEntity> findByIdAndUserIdAndDeletedAtIsNull(Long id, Long userId);
-
-    Optional<FollowedChannelEntity> findByIdAndDeletedAtIsNull(Long id);
-
-    boolean existsByUserIdAndChannelUrlAndDeletedAtIsNull(Long userId, String channelUrl);
-
-    Page<FollowedChannelEntity> findAllByUserIdAndDeletedAtIsNull(Long userId, Pageable pageable);
+    @Query("""
+            SELECT e FROM FollowedChannelEntity e
+            WHERE e.id = :id
+                        AND e.status = com.ai_content.followed_channel.domain.FollowedChannelStatus.ACTIVE
+                        AND e.isActive = true
+                        AND e.deletedAt IS NULL
+            """)
+    Optional<FollowedChannelEntity> findActiveById(@Param("id") Long id);
 }

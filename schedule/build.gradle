@@ -3,9 +3,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation project(":core-domain")
     implementation project(":db-core")
-
-    implementation 'org.springframework:spring-web'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation project(":queue-sqs")
 }
 tasks.named('bootJar') {
     enabled = true

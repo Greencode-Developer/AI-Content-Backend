@@ -4,17 +4,13 @@ spring:
   config:
     import:
       - datasource.yml
+      - sqs.yml
   main:
     web-application-type: none
   flyway:
     enabled: false
 
-ai:
-  python:
-    base-url: ${AI_PYTHON_BASE_URL:http://localhost:8080}
-
 schedule:
   collect:
     cron: ${COLLECT_CRON:0 0 */6 * * *}
 #    cron: "0 */1 * * * *"
-    batch-size: ${COLLECT_BATCH_SIZE:50}

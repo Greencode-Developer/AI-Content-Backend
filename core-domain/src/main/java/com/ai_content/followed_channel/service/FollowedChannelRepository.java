@@ -13,6 +13,8 @@ public interface FollowedChannelRepository {
 
     List<FollowedChannel> findAllActiveForCollect();
 
+    Optional<FollowedChannel> findActiveById(Long id);
+
     void updateLastFetchedAt(Long id, LocalDateTime fetchedAt);
 
     FollowedChannel create(Long userId,
