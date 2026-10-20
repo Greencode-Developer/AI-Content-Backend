@@ -14,3 +14,5 @@ schedule:
   collect:
     cron: ${COLLECT_CRON:0 0 */6 * * *}
 #    cron: "0 */1 * * * *"
+    lock-at-least-for: ${COLLECT_LOCK_AT_LEAST_FOR:PT5M}
+    lock-at-most-for: ${COLLECT_LOCK_AT_MOST_FOR:PT10M}

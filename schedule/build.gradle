@@ -4,6 +4,10 @@ dependencies {
     implementation project(":core-domain")
     implementation project(":db-core")
     implementation project(":queue-sqs")
+
+    //shedlock
+    implementation 'net.javacrumbs.shedlock:shedlock-spring:6.6.0'
+    implementation 'net.javacrumbs.shedlock:shedlock-provider-jdbc-template:6.6.0'
 }
 tasks.named('bootJar') {
     enabled = true
