@@ -32,6 +32,7 @@ public interface TrendSignalJpaRepository extends JpaRepository<TrendSignalEntit
             comments = COALESCE(EXCLUDED.comments, trend_signals.comments),
             shares = COALESCE(EXCLUDED.shares, trend_signals.shares),
             updated_at = NOW()
+        WHERE trend_signals.status = 'ACTIVE'
     """, nativeQuery = true)
     void upsert(
             @Param("userId") Long userId,
