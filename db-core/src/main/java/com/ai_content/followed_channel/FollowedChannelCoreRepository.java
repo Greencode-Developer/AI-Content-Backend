@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -69,4 +71,25 @@ public class FollowedChannelCoreRepository implements FollowedChannelRepository 
                 .findByIdAndDeletedAtIsNull(existing.id())
                 .orElseThrow(() -> new CustomException(ErrorCode.FOLLOWED_CHANNEL_NOT_FOUND));
         entity.delete();
-    }}
+    }
+
+    @Override
+    public List<FollowedChannel> findAllActiveForCollect() {
+        return followedChannelJpaRepository.findAllActiveForCollect()
+                .stream()
+                .map(FollowedChannelEntity::toDomain)
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public void updateLastFetchedAt(Long id, LocalDateTime fetchedAt) {
+        followedChannelJpaRepository.updateLastFetchedAt(id, fetchedAt);
+    }
+
+    @Override
+    public Optional<FollowedChannel> findActiveById(Long id) {
+        return followedChannelJpaRepository.findActiveById(id)
+                .map(FollowedChannelEntity::toDomain);
+    }
+}

@@ -10,3 +10,8 @@ spring:
 
       sqs:
         endpoint: http://localhost:4566
+
+
+app:
+  sqs:
+    trend-signal-collect-queue: ${TREND_SIGNAL_COLLECT_QUEUE:trend-signal-collect}
