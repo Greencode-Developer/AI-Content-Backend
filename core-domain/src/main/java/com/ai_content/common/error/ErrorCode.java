@@ -31,6 +31,12 @@ public enum ErrorCode {
     FOLLOWED_CHANNEL_NOT_FOUND("CHANNEL-001", "Followed channel not found"),
     FOLLOWED_CHANNEL_DUPLICATE_URL("CHANNEL-002", "This channel URL is already being followed"),
     FOLLOWED_CHANNEL_FORBIDDEN("CHANNEL-003", "You do not have permission to access this followed channel"),
+
+    // Trend Signal
+    TREND_SIGNAL_NOT_FOUND("TREND_SIGNAL-001", "Trend signal not found"),
+    TREND_SIGNAL_INVALID_SORT("TREND_SIGNAL-002", "Sort is only allowed by publishedAt, likes, comments or shares"),
+    TREND_SIGNAL_INVALID_DATE_RANGE("TREND_SIGNAL-003", "'from' must be before or equal to 'to'"),
+
     PILLAR_NOTFOUND("PILLAR-001","PILLAR_NOTFOUND"),
     // InvalidTargetRatio("PILLAR-001","InvalidTargetRatio" );
     InvalidTargetRatio("PILLAR-001","InvalidTargetRatio" ),
