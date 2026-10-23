@@ -11,8 +11,9 @@ public class ErrorHttpStatusMapper {
         return switch (errorCode) {
             case SAMPLE_ERROR,
                  METHOD_ARGUMENT_TYPE_MISMATCH,
-                 BRAND_PROFILE_VALIDATION_ERROR ->
-                    HttpStatus.BAD_REQUEST;
+                 BRAND_PROFILE_VALIDATION_ERROR,
+                 TREND_SIGNAL_INVALID_SORT,
+                 TREND_SIGNAL_INVALID_DATE_RANGE -> HttpStatus.BAD_REQUEST;
 
             case METHOD_NOT_ALLOWED -> HttpStatus.METHOD_NOT_ALLOWED;
 
@@ -23,14 +24,13 @@ public class ErrorHttpStatusMapper {
                  USER_TOKEN_EXPIRED -> HttpStatus.UNAUTHORIZED;
 
             case PERSONA_NOT_FOUND, BRAND_PROFILE_NOT_FOUND,
-                 FOLLOWED_CHANNEL_NOT_FOUND -> HttpStatus.NOT_FOUND;
+                 FOLLOWED_CHANNEL_NOT_FOUND,
+                 TREND_SIGNAL_NOT_FOUND -> HttpStatus.NOT_FOUND;
 
             case EMAIL_ALREADY_EXISTS,
-                    FOLLOWED_CHANNEL_DUPLICATE_URL ->
-                    HttpStatus.CONFLICT;
+                    FOLLOWED_CHANNEL_DUPLICATE_URL -> HttpStatus.CONFLICT;
 
-            default ->
-                    HttpStatus.INTERNAL_SERVER_ERROR;
+            default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
     }
 }
