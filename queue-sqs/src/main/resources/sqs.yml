@@ -15,3 +15,18 @@ spring:
 app:
   sqs:
     trend-signal-collect-queue: ${TREND_SIGNAL_COLLECT_QUEUE:trend-signal-collect}
+    ai-content-job-queue: ${AI_CONTENT_JOB_QUEUE:ai-content-job}
+    dlq:
+      provision: ${SQS_DLQ_PROVISION:true}
+      suffix: -dlq
+      max-receive-count: ${SQS_DLQ_MAX_RECEIVE_COUNT:5}
+      retention-seconds: 1209600   # 14 days (SQS maximum)
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+app:
+  sqs:
+    dlq:
+      provision: false
