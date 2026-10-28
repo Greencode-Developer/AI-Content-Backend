@@ -21,6 +21,13 @@ spring:
 ai:
   python:
     base-url: ${AI_PYTHON_BASE_URL:http://localhost:8080}
+  idea:
+    base-url: ${AI_IDEA_BASE_URL:http://localhost:8000}
+    provider: ${AI_IDEA_PROVIDER:bedrock}
+    connect-timeout: 5s
+    read-timeout: 90s
+    # PROCESSING longer than this = worker died, the job can be claimed again (keep > read-timeout)
+    processing-timeout: ${AI_IDEA_PROCESSING_TIMEOUT:5m}
   collect:
     post-limit: ${AI_COLLECT_POST_LIMIT:50}
 

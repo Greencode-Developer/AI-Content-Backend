@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -30,6 +31,13 @@ public class PersonaCoreRepository implements PersonaRepository {
                 .stream()
                 .map(PersonaEntity::toDomain)
                 .toList();
+    }
+
+    @Override
+    public Optional<Persona> findActiveByIdAndUserId(Long personaId, Long userId) {
+        return personaJpaRepository.findByIdAndUserId(personaId, userId)
+                .filter(entity -> entity.getStatus() != PersonaStatus.DELETED)
+                .map(PersonaEntity::toDomain);
     }
 
     @Override

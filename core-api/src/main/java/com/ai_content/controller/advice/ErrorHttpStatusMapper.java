@@ -17,7 +17,8 @@ public class ErrorHttpStatusMapper {
 
             case METHOD_NOT_ALLOWED -> HttpStatus.METHOD_NOT_ALLOWED;
 
-            case USER_FORBIDDEN,FOLLOWED_CHANNEL_FORBIDDEN, PERSONA_FORBIDDEN -> HttpStatus.FORBIDDEN;
+            case USER_FORBIDDEN,FOLLOWED_CHANNEL_FORBIDDEN, PERSONA_FORBIDDEN,
+                 AI_JOB_ACCESS_DENIED -> HttpStatus.FORBIDDEN;
 
             case USER_NOTFOUND, USER_UNAUTHORIZED ,
                  USER_TOKEN_INVALID,
@@ -25,7 +26,9 @@ public class ErrorHttpStatusMapper {
 
             case PERSONA_NOT_FOUND, BRAND_PROFILE_NOT_FOUND,
                  FOLLOWED_CHANNEL_NOT_FOUND,
-                 TREND_SIGNAL_NOT_FOUND -> HttpStatus.NOT_FOUND;
+                 TREND_SIGNAL_NOT_FOUND,
+                 PILLAR_NOTFOUND,
+                 AI_JOB_NOT_FOUND -> HttpStatus.NOT_FOUND;
 
             case EMAIL_ALREADY_EXISTS,
                     FOLLOWED_CHANNEL_DUPLICATE_URL -> HttpStatus.CONFLICT;

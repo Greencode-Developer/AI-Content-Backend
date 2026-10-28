@@ -5,7 +5,8 @@ public record Job(
         Long userId,
         JobType type,
         JobStatus status,
-        String errorMessage
+        String errorMessage,
+        String input
 ) {
 
     public static Job of(
@@ -13,14 +14,16 @@ public record Job(
             Long userId,
             JobType type,
             JobStatus status,
-            String errorMessage
+            String errorMessage,
+            String input
     ) {
         return new Job(
                 id,
                 userId,
                 type,
                 status,
-                errorMessage
+                errorMessage,
+                input
         );
     }
 

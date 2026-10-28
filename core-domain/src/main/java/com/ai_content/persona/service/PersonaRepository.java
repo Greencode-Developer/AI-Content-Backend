@@ -3,6 +3,7 @@ package com.ai_content.persona.service;
 import com.ai_content.persona.domain.Persona;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PersonaRepository {
 
@@ -15,6 +16,8 @@ public interface PersonaRepository {
                           String typicalPhrases);
 
     List<Persona> getPersonas(Long userId);
+
+    Optional<Persona> findActiveByIdAndUserId(Long personaId, Long userId);
 
     Persona updatePersona(Long personaId,
                           Long userId,
