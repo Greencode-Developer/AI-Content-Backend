@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -47,6 +48,14 @@ public class JobCoreRepository implements AiJobRepository {
     @Transactional
     public void markFailed(Long jobId, String errorMessage, String traceId) {
         getJob(jobId).fail(errorMessage, traceId);
+    }
+
+    @Override
+    @Transactional
+    public int failStuckJobs(LocalDateTime stuckBefore, String errorMessage) {
+        return jobJpaRepository.failStuck(
+                List.of(JobStatus.PENDING, JobStatus.PROCESSING), JobStatus.FAILED,
+                errorMessage, LocalDateTime.now(), stuckBefore);
     }
 
     private JobEntity getJob(Long jobId) {

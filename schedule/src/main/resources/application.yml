@@ -16,3 +16,8 @@ schedule:
 #    cron: "0 */1 * * * *"
     lock-at-least-for: ${COLLECT_LOCK_AT_LEAST_FOR:PT5M}
     lock-at-most-for: ${COLLECT_LOCK_AT_MOST_FOR:PT10M}
+  ai-job-timeout:
+    cron: ${AI_JOB_TIMEOUT_CRON:0 */5 * * * *}
+    stuck-after: ${AI_JOB_STUCK_AFTER:PT30M}
+    lock-at-least-for: PT1M
+    lock-at-most-for: PT4M

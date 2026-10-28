@@ -19,4 +19,8 @@ public interface AiJobRepository {
     void markCompleted(Long jobId, AiGenerationMeta meta);
 
     void markFailed(Long jobId, String errorMessage, String traceId);
+
+    // FAILED for every PENDING/PROCESSING job not started (or not created, if never started) since stuckBefore:
+    // its SQS message is gone (DLQ, publish failure) so no worker will pick it up again. Returns the count
+    int failStuckJobs(LocalDateTime stuckBefore, String errorMessage);
 }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 public interface JobJpaRepository extends JpaRepository<JobEntity,Long> {
 
@@ -25,4 +26,17 @@ public interface JobJpaRepository extends JpaRepository<JobEntity,Long> {
               @Param("processing") JobStatus processing,
               @Param("now") LocalDateTime now,
               @Param("staleBefore") LocalDateTime staleBefore);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("""
+            update JobEntity j
+               set j.status = :failed, j.errorMessage = :errorMessage, j.finishedAt = :now, j.updatedAt = :now
+             where j.status in :unfinished
+               and coalesce(j.startedAt, j.createdAt) < :stuckBefore
+            """)
+    int failStuck(@Param("unfinished") Collection<JobStatus> unfinished,
+                  @Param("failed") JobStatus failed,
+                  @Param("errorMessage") String errorMessage,
+                  @Param("now") LocalDateTime now,
+                  @Param("stuckBefore") LocalDateTime stuckBefore);
 }
