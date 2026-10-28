@@ -44,7 +44,7 @@ public class JobEntity extends BaseEntity {
     @Column(name = "trace_id", length = 64)
     private String traceId;
 
-    @Column(length = 100)
+    @Column(length = 255)
     private String model;
 
     @Column(name = "prompt_version", length = 50)

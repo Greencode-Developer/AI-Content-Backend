@@ -9,7 +9,7 @@ public record AiIdeaGenerationResult(
         AiGenerationMeta meta
 ) {
     public AiIdeaGenerationResult {
-        ideas = ideas == null ? List.of() : List.copyOf(ideas);
+        ideas = ideas == null ? List.of() : ideas.stream().toList();
         meta = meta == null ? AiGenerationMeta.empty() : meta;
     }
 }

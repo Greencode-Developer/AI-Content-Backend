@@ -24,6 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -156,6 +157,18 @@ class IdeaGenerationServiceTest {
         claimedJob(inputCodec.toJson(INPUT));
         when(aiIdeaGenerator.generate(JOB_ID, USER_ID, INPUT))
                 .thenReturn(result(List.of(idea("Idea 1"), idea("  "))));
+
+        service.process(JOB_ID);
+
+        verify(aiJobRepository).markFailed(JOB_ID, "AI returned an idea without title", TRACE_ID);
+        verifyNoInteractions(resultWriter);
+    }
+
+    @Test
+    void process_shouldFailJob_withTraceId_whenAiReturnsNullIdea() {
+        claimedJob(inputCodec.toJson(INPUT));
+        when(aiIdeaGenerator.generate(JOB_ID, USER_ID, INPUT))
+                .thenReturn(result(Arrays.asList(idea("Idea 1"), null)));
 
         service.process(JOB_ID);
 

@@ -90,6 +90,18 @@ class PythonAiClientTest {
     }
 
     @Test
+    void generate_withNullIdea_keepsItAndTheTraceIdForValidation() {
+        respond(200, """
+                {"ideas":[{"title":"Idea 1"},null],"trace_id":"trace-abc"}
+                """);
+
+        AiIdeaGenerationResult result = client(Duration.ofSeconds(5)).generate(10L, 1L, INPUT);
+
+        assertThat(result.ideas()).hasSize(2).containsNull();
+        assertThat(result.meta().traceId()).isEqualTo("trace-abc");
+    }
+
+    @Test
     void generate_whenServerError_throwsAiGenerationException() {
         respond(500, "{\"detail\":\"model overloaded\"}");
 
