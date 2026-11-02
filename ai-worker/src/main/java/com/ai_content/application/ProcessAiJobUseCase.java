@@ -1,6 +1,7 @@
 package com.ai_content.application;
 
-import com.ai_content.infrastructure.ai.PythonAiClient;
+import com.ai_content.idea.service.service.IdeaGenerationService;
+import com.ai_content.job.domain.JobType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,9 +9,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProcessAiJobUseCase {
 
-    private final PythonAiClient pythonAiClient;
+    private final IdeaGenerationService ideaGenerationService;
 
-    public void execute(Long jobId) {
-//        pythonAiClient.generate(jobId);
+    public void execute(Long jobId, JobType type) {
+        if (jobId == null || type == null) {
+            throw new IllegalArgumentException("jobId and type are required");
+        }
+
+        switch (type) {
+            case GENERATE_IDEA -> ideaGenerationService.process(jobId);
+        }
     }
 }
